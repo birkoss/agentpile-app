@@ -8,6 +8,8 @@ import { HomePage } from '../pages/home/home';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { GooglePlus } from '@ionic-native/google-plus';
+
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @NgModule({
@@ -26,6 +28,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
     HomePage
   ],
   providers: [
+    GooglePlus,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
