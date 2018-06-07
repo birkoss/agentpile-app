@@ -1,3 +1,39 @@
 page-home {
+	h1 {
+		text-align: center;
+		margin-bottom: 16px;
+	}
 
+	.progress-wrapper {
+	  position: relative;
+	  margin: 20px auto;
+	  font-size: 40px;
+	}
+
+	.block_container:not(:first-child) {
+		margin-top: 32px;
+	}
+
+	.current {
+	  position: absolute;
+	  color: #bbb;
+	  font-weight: 100;
+	  line-height: 1;
+	}
+
+	round-progress {
+	  margin: auto;
+	}
+
+	ion-list {
+		h2 {
+			white-space: normal;
+		}
+
+		ion-avatar {
+			ion-icon {
+				font-size: 2.5em;
+			}
+		}
+	}
 }

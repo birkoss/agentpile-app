@@ -1,18 +1,53 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Children Name</ion-title>
+    <ion-buttons end>
+      <button ion-end ion-button>
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+      <button ion-end ion-button>
+        <ion-icon name="alarm"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <div class="block_container">
+    <h1>Goals</h1>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+    <div class="progress-wrapper">
+      <div class="current" [ngStyle]="getOverlayStyle()">{{ current }}/{{ max }}</div>
+      <round-progress [current]="current" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
+    </div>
+  </div>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <div class="block_container">
+    <h1>List</h1>
+
+    <ion-list>
+      <ion-item>
+        <ion-avatar item-start>
+          <ion-icon name="book"></ion-icon>
+        </ion-avatar>
+        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        <h3><ion-icon name="time"></ion-icon> 20 min(s)</h3>
+        <p><ion-icon name="calendar"></ion-icon> 4 janvier 2018</p>
+      </ion-item>
+      <ion-item>
+        <ion-avatar item-start>
+          <ion-icon name="book"></ion-icon>
+        </ion-avatar>
+        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        <h3><ion-icon name="time"></ion-icon> 20 min(s)</h3>
+        <p><ion-icon name="calendar"></ion-icon> 4 janvier 2018</p>
+      </ion-item>
+    </ion-list>
+  </div>
+
 </ion-content>
