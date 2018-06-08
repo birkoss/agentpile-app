@@ -3,6 +3,7 @@ import { LoadingController, NavController } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { LoginPage } from '../../pages/login/login';
+import { NewUserPage } from '../../pages/new-user/new-user';
 
 import { DataProvider } from '../../providers/data/data'
 
@@ -23,11 +24,19 @@ export class LoadingPage {
     this.loading.present();
 
     let me = this;
-    this.dataProvider.loadLogin()
+    this.dataProvider.load()
     .then(function(str) {
         me.loading.dismiss();
 
-        me.navCtrl.setRoot(me.dataProvider.isLoggedIn() ? HomePage : LoginPage);
+        if (me.dataProvider.isLoggedIn()) {
+          if (me.dataProvider.getUsers().length == 0) {
+            me.navCtrl.setRoot(NewUserPage);
+          } else {
+            me.navCtrl.setRoot(HomePage, {user: me.dataProvider.getUsers()[0]});
+          }
+        } else {
+          me.navCtrl.setRoot(LoginPage);
+        }
     })
     .catch((err) => { alert("NOP: " + err)});
   }

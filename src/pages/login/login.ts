@@ -17,7 +17,7 @@ export class LoginPage {
   loginWithGoogle() {
     this.googlePlus.login({ "webClientId": "698237473663-7u72kk47fb77ck702hiasu7bddqohjm1.apps.googleusercontent.com" })
       .then(res => {
-        this.dataProvider.saveLogin(res['idToken'], 'google');
+        this.dataProvider.login(res['idToken'], 'google');
       })
       .catch(err => alert(":(" + err));
   }

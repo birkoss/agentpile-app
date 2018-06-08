@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoadingPage } from '../pages/loading/loading';
 import { HomePage } from '../pages/home/home';
 
+import { DataProvider } from '../providers/data/data';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -16,15 +18,8 @@ export class MyApp {
 
   children: Array<{name: string, id: string}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(private dataProvider:DataProvider, public platform:Platform, public statusBar:StatusBar, public splashScreen:SplashScreen) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    this.children = [
-      { name:'Fanny', id:'fanny' },
-      { name:'Yoan', id:'yoan' }
-    ];
-
   }
 
   initializeApp() {
@@ -36,9 +31,7 @@ export class MyApp {
     });
   }
 
-  showChild(child) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(HomePage, {child:child});
+  loadUser(user) {
+    this.nav.setRoot(HomePage, {user:user});
   }
 }

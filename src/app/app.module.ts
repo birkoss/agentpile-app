@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoadingPage } from '../pages/loading/loading';
 import { LoginPage } from '../pages/login/login';
+import { NewUserPage } from '../pages/new-user/new-user';
 
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -23,7 +24,8 @@ import { DataProvider } from '../providers/data/data';
     MyApp,
     HomePage,
     LoadingPage,
-    LoginPage
+    LoginPage,
+    NewUserPage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import { DataProvider } from '../providers/data/data';
     MyApp,
     HomePage,
     LoadingPage,
-    LoginPage
+    LoginPage,
+    NewUserPage
   ],
   providers: [
     GooglePlus,

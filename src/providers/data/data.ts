@@ -4,45 +4,52 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class DataProvider {
-	login:any;
+	data:Object;
 
 	constructor(private storage:Storage) {
-		this.login = null;
-		if (this.isDebug()) {
-			this.login = {
-				token: "debug",
-				platform: "browser"
-			};
-		}
+		this.data = {
+			'login': {
+				token: '',
+				platform: ''
+			},
+			'users': []
+		};
 	}
 
- 	public loadLogin() {
+ 	public load() {
         return new Promise((resolve, reject) => {
-            this.storage.get('login').then(data => {
+            this.storage.get('data').then(data => {
+            	console.log(data);
                 if (data != null) {
                     data = JSON.parse(data);
-                    this.login = data;
+                    this.data = data;
 
-                    console.log("loading: ", data, this.login);
+                    console.log("loading: ", data, this.data);
+                } else {
+					if (this.isDebug()) {
+						this.login('debug', 'browser');
+					}
                 }
                 resolve("ok");
             });
         });
     }
 
-	saveLogin(token:string, platform:string) {
-		this.login = {
+	login(token:string, platform:string) {
+		this.data['login'] = {
 			token: token,
 			platform: platform
 		};
 
-		this.storage.set('login', JSON.stringify(this.login));
+		this.storage.set('data', JSON.stringify(this.data));
+	}
 
-		alert( JSON.stringify(this.login) );
+	getUsers():Array<Object> {
+		return this.data['users'];
 	}
 
 	isLoggedIn():boolean {
-		return this.login !== null;
+		return this.data['login'] !== '';
 	}
 
 	isDebug():boolean {
