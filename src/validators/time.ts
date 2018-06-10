@@ -1,7 +1,7 @@
 import { FormControl } from '@angular/forms';
  
 export class TimeValidator {
- 
+
     static isValid(control: FormControl): any {
  
         if(isNaN(control.value)){
@@ -16,13 +16,13 @@ export class TimeValidator {
             };
         }
  
-        if(control.value < 18){
+        if(control.value < 1){
             return {
                 "too young": true
             };
         }
  
-        if (control.value > 120){
+        if (control.value > 60){
             return {
                 "not realistic": true
             };
@@ -33,7 +33,7 @@ export class TimeValidator {
 
     static isGoalValid(control:FormControl):any {
  
-        if(isNaN(control.value)){
+        if(isNaN(control.value)) {
             return {
                 "not a number": true
             };

@@ -32,7 +32,7 @@ export class LoadingPage {
           if (me.dataProvider.getUsers().length == 0) {
             me.navCtrl.setRoot(NewUserPage);
           } else {
-            me.navCtrl.setRoot(HomePage, {user: me.dataProvider.getUsers()[0]});
+            me.navCtrl.setRoot(HomePage, {userId: me.dataProvider.getUsers()[0]['id']});
           }
         } else {
           me.navCtrl.setRoot(LoginPage);

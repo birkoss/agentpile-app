@@ -1,16 +1,82 @@
-// http://ionicframework.com/docs/theming/
+ion-menu {
+	ion-header {
+	    background-color: #f4f4f4;
+	    min-height: 150px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
 
+	ion-list {
+		button {
+			ion-label {
+				display: flex;
 
-// App Global Sass
-// --------------------------------------------------
-// Put style rules here that you want to apply globally. These
-// styles are for the entire app and not just one component.
-// Additionally, this file can be also used as an entry point
-// to import other Sass files to be included in the output CSS.
-//
-// Shared Sass variables, which can be used to adjust Ionic's
-// default Sass variables, belong in "theme/variables.scss".
-//
-// To declare rules for a specific mode, create a child rule
-// for the .md, .ios, or .wp mode classes. The mode class is
-// automatically applied to the <body> element in the app.
+				ion-icon {
+					margin-right: 16px;
+				}
+			}
+		}
+	}
+}
+
+p.error {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+
+	position: relative;
+	padding: 20px;
+	margin-bottom: 16px;
+	margin-top: 0;
+	border: 1px solid transparent;
+	border-radius: .25rem;
+	text-align: center;
+}
+
+.fieldset {
+	ion-col {
+       	display: flex;
+		align-items: center;
+
+		padding: 0 !important;
+
+		span.label {
+			padding-left: 8px;
+		}
+	}
+
+    ion-input {
+	    display: block;
+	    width: 100%;
+	    padding: 2px;
+	    color: #495057;
+	    background-color: #fff;
+	    background-clip: padding-box;
+	    border: 1px solid #ced4da;
+
+	    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+	    &[type=number] {
+	    	max-width: 50px;
+	    }
+
+	    input[type=number] {
+	    	text-align: center;
+	    }
+    }
+
+	ion-input.invalid {
+    	border: 1px solid #ea6153;
+	}
+
+	ion-label {
+		font-size: 1.2em !important;
+		font-weight: bold;
+		margin-bottom: 8px !important;
+	}
+
+	&:not(:last-child) {
+		margin-bottom: 16px;
+	}
+}

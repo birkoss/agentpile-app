@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoadingPage } from '../pages/loading/loading';
 import { LoginPage } from '../pages/login/login';
+import { NewSessionPage } from '../pages/new-session/new-session';
 import { NewUserPage } from '../pages/new-user/new-user';
 
 import { IonicStorageModule } from '@ionic/storage';
@@ -25,6 +26,7 @@ import { DataProvider } from '../providers/data/data';
     HomePage,
     LoadingPage,
     LoginPage,
+    NewSessionPage,
     NewUserPage
   ],
   imports: [
@@ -39,6 +41,7 @@ import { DataProvider } from '../providers/data/data';
     HomePage,
     LoadingPage,
     LoginPage,
+    NewSessionPage,
     NewUserPage
   ],
   providers: [

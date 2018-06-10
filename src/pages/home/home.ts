@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { AlertController, MenuController, ModalController, NavController, NavParams } from 'ionic-angular';
+
+import { NewSessionPage } from '../../pages/new-session/new-session';
+
+import { DataProvider } from '../../providers/data/data'
 
 @Component({
   selector: 'page-home',
@@ -7,23 +11,68 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class HomePage {
 
-  current: number = 12;
-  max: number = 36;
+  max: number = 100;
   radius: number = 125;
   color: string = '#45ccce';
 
-  child:any;
+  userId:number;
 
+  user:any;
 
-  constructor(private navCtrl:NavController, private navParams:NavParams) {
-    this.child = this.navParams.get("child");
+  listMode:string = "normal";
+
+  constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams) {
+    this.userId = this.navParams.get("userId");
+    this.user = this.dataProvider.getUsers().find(single_user => single_user['id'] == this.userId);
+
+    this.max = this.user['sessions'];
   }
 
-  increase() {
-  	this.current++;
+  showMenu() {
+    this.menuCtrl.open();
   }
 
-getOverlayStyle() {
+  timeSession() {
+    alert("TODO");
+  }
+
+  setMode(newMode) {
+    this.listMode = newMode;
+  }
+
+  addSession() {
+    const modal = this.modalCtrl.create(NewSessionPage, {userId:this.userId, minutes:this.user['minutes']});
+    modal.present();
+  }
+
+  deleteSession(session) {
+    const confirm = this.alertCtrl.create({
+      title: 'Are you sure?',
+      message: 'Please confirm you want to delete this session : ' + session['bookName'],
+      buttons: [{
+        text: 'Cancel',
+        handler: () => {
+          console.log('Disagree clicked');
+        }
+      },{
+        text: 'Delete',
+        handler: () => {
+          this.dataProvider.removeSession(this.userId, session);
+        }
+      }]
+    });
+    confirm.present();
+  }
+
+  getProgression():number {
+    return this.getSessions().length;
+  }
+
+  getSessions():Array<Object> {
+    return this.dataProvider.getSession(this.userId);
+  }
+
+  getOverlayStyle() {
     let transform = 'translateY(-50%) translateX(-50%)';
 
     return {

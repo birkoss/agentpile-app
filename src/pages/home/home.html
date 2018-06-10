@@ -1,16 +1,16 @@
 <ion-header>
   <ion-navbar>
     <ion-buttons left>
-      <button ion-button menuToggle>
+      <button ion-button (tap)="showMenu()">
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Children Name</ion-title>
+    <ion-title>{{ user.name }}</ion-title>
     <ion-buttons end>
-      <button ion-end ion-button>
+      <button ion-end ion-button (tap)="addSession()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
-      <button ion-end ion-button>
+      <button ion-end ion-button (tap)="timeSession()">
         <ion-icon name="alarm"></ion-icon>
       </button>
     </ion-buttons>
@@ -22,32 +22,39 @@
     <h1>Goals</h1>
 
     <div class="progress-wrapper">
-      <div class="current" [ngStyle]="getOverlayStyle()">{{ current }}/{{ max }}</div>
-      <round-progress [current]="current" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
+      <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }}/{{ max }}</div>
+      <round-progress [current]="getProgression()" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
     </div>
   </div>
 
-  <div class="block_container">
-    <h1>List</h1>
-
+  <div class="block_container" *ngIf="getProgression() > 0">
     <ion-list>
       <ion-item>
-        <ion-avatar item-start>
-          <ion-icon name="book"></ion-icon>
-        </ion-avatar>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-        <h3><ion-icon name="time"></ion-icon> 20 min(s)</h3>
-        <p><ion-icon name="calendar"></ion-icon> 4 janvier 2018</p>
+        <div>List</div>
+        <button *ngIf="listMode == 'normal'" item-end clear ion-button (tap)="setMode('edit')">
+          Edit
+        </button>
+        <button *ngIf="listMode == 'edit'" item-end clear ion-button (tap)="setMode('normal')">
+          Close
+        </button>
       </ion-item>
-      <ion-item>
+
+      <ion-item *ngFor="let s of getSessions()">
         <ion-avatar item-start>
-          <ion-icon name="book"></ion-icon>
+          <ion-icon name="checkmark"></ion-icon>
         </ion-avatar>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-        <h3><ion-icon name="time"></ion-icon> 20 min(s)</h3>
-        <p><ion-icon name="calendar"></ion-icon> 4 janvier 2018</p>
+        <h2>{{ s.bookName }}</h2>
+        <h3><ion-icon name="time"></ion-icon> {{ s.minutes }} min(s)</h3>
+        <p><ion-icon name="calendar"></ion-icon> {{ s.when }}</p>
+        <button color="danger" *ngIf="listMode == 'edit'" item-end ion-button (tap)="deleteSession(s)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
       </ion-item>
     </ion-list>
+  </div>
+
+  <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
+    <button ion-button (tap)="addSession()">Log your first book!</button>
   </div>
 
 </ion-content>
