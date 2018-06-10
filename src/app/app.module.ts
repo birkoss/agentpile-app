@@ -20,6 +20,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 import { DataProvider } from '../providers/data/data';
+import { ApiProvider } from '../providers/api/api';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DataProvider } from '../providers/data/data';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DataProvider
+    DataProvider,
+    ApiProvider
   ]
 })
 export class AppModule {}

@@ -32,6 +32,7 @@ export class LoadingPage {
           if (me.dataProvider.getUsers().length == 0) {
             me.navCtrl.setRoot(NewUserPage);
           } else {
+            // @TODO: Must remember the last user and load it
             me.navCtrl.setRoot(HomePage, {userId: me.dataProvider.getUsers()[0]['id']});
           }
         } else {
