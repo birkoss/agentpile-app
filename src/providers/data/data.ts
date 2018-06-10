@@ -8,9 +8,11 @@ export class DataProvider {
 
 	constructor(private storage:Storage) {
 		this.data = {
-			'login': {
+			'account': {
+                id: '',
 				token: '',
-				platform: ''
+				platform: '',
+                isDirty: true
 			},
 			'users': [],
             'sessions': {},
@@ -94,10 +96,12 @@ export class DataProvider {
        this.save();
     }
 
-	login(token:string, platform:string) {
-		this.data['login'] = {
+	login(id:string, token:string, platform:string) {
+		this.data['account'] = {
+            id: id,
 			token: token,
-			platform: platform
+			platform: platform,
+            isDirty: true
 		};
 
 		this.save();
@@ -116,7 +120,14 @@ export class DataProvider {
 	}
 
 	isLoggedIn():boolean {
-		return this.data['login'] !== '';
+        let loggedIn = this.data['account']['id'] !== '';
+
+        if (!loggedIn && this.isDebug()) {
+            this.login('TMP_account', 'debug', 'browser');
+            return this.isLoggedIn();
+        }
+
+        return loggedIn;
 	}
 
 	isDebug():boolean {
