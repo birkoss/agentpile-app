@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.birkoss.read" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Read</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+<widget id="com.agentpile.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>AgentPile</name>
+    <description>Une application pour encourager les jeunes à lire.</description>
+    <author email="admin@birkoss.com" href="https://agentpile.com/">Mathieu Robichaud</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

@@ -36,12 +36,16 @@ export class HomePage {
     alert("TODO");
   }
 
+  refresh() {
+    console.log("CHeck if its completed...");
+  }
+
   setMode(newMode) {
     this.listMode = newMode;
   }
 
   addSession() {
-    const modal = this.modalCtrl.create(NewSessionPage, {userId:this.userId, minutes:this.user['minutes']});
+    const modal = this.modalCtrl.create(NewSessionPage, {userId:this.userId, minutes:this.user['minutes'], callback:this.refresh.bind(this)});
     modal.present();
   }
 

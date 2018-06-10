@@ -8,10 +8,10 @@ import { DataProvider } from '../../providers/data/data'
 import { TimeValidator } from  '../../validators/time';
 
 @Component({
-	selector: 'page-new-session',
-	templateUrl: 'new-session.html'
+	selector: 'page-session-completed',
+	templateUrl: 'session-completed.html'
 })
-export class NewSessionPage {
+export class SessionCompletedPage {
 
   isMandatory:boolean = true;
   userId:number = 0;
@@ -25,17 +25,12 @@ export class NewSessionPage {
 
   minutes:number = 0;
 
-  callback:any = null;
-
   constructor(private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
     if (navParams.get("userId") != null) {
       this.userId = navParams.get("userId");
     }
     if (navParams.get("minutes") != null) {
       this.minutes = navParams.get("minutes");
-    }
-    if (navParams.get("callback") != null) {
-      this.callback = navParams.get("callback");
     }
 
     this.myForm = formBuilder.group({
@@ -46,11 +41,7 @@ export class NewSessionPage {
   }
 
   close() {
-    this.viewCtrl.dismiss().then(() => {
-      if (this.callback != null) {
-        this.callback();
-      }
-    });
+    this.viewCtrl.dismiss();
   }
 
   isFieldInvalid(field_name:string):boolean {
@@ -71,7 +62,8 @@ export class NewSessionPage {
       let minutes = (parseInt(this.myForm.controls.hours.value) * 60) + parseInt(this.myForm.controls.minutes.value);
       this.dataProvider.addSession(this.userId, this.myForm.value.name, minutes);
 
-      this.close();
+      this.viewCtrl.dismiss().then(() => {
+      });
     }
   }
 }

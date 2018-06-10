@@ -8,6 +8,7 @@ import { LoadingPage } from '../pages/loading/loading';
 import { LoginPage } from '../pages/login/login';
 import { NewSessionPage } from '../pages/new-session/new-session';
 import { NewUserPage } from '../pages/new-user/new-user';
+import { SessionCompletedPage } from '../pages/session-completed/session-completed';
 
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -27,7 +28,8 @@ import { DataProvider } from '../providers/data/data';
     LoadingPage,
     LoginPage,
     NewSessionPage,
-    NewUserPage
+    NewUserPage,
+    SessionCompletedPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { DataProvider } from '../providers/data/data';
     LoadingPage,
     LoginPage,
     NewSessionPage,
-    NewUserPage
+    NewUserPage,
+    SessionCompletedPage
   ],
   providers: [
     GooglePlus,
