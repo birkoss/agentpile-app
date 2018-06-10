@@ -10,12 +10,13 @@ import { TimeValidator } from  '../../validators/time';
 import { DataProvider } from '../../providers/data/data'
 
 @Component({
-	selector: 'page-new-user',
-	templateUrl: 'new-user.html'
+	selector: 'page-edit-user',
+	templateUrl: 'edit-user.html'
 })
-export class NewUserPage {
+export class EditUserPage {
 
   isMandatory:boolean = true;
+  userId:string = "";
 
   myForm:any;
 
@@ -25,6 +26,10 @@ export class NewUserPage {
   goalHours:number = 0;
 
   constructor(private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
+    if (navParams.get("userId") != null) {
+      this.userId = navParams.get("userId");
+    }
+
     if (navParams.get("isMandatory") != null) {
       this.isMandatory = navParams.get("isMandatory");
     }
