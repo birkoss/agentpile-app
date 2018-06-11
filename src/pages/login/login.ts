@@ -15,9 +15,9 @@ export class LoginPage {
   constructor(private dataProvider:DataProvider, private googlePlus:GooglePlus, private navCtrl:NavController) {}
 
   loginWithGoogle() {
-    this.googlePlus.login({ "webClientId": "698237473663-7u72kk47fb77ck702hiasu7bddqohjm1.apps.googleusercontent.com" })
+    this.googlePlus.login({"webClientId": "698237473663-7u72kk47fb77ck702hiasu7bddqohjm1.apps.googleusercontent.com"})
       .then(res => {
-        this.dataProvider.login(res['idToken'], 'google');
+        this.dataProvider.login("tmp_" + this.dataProvider.generateId(), res['idToken'], 'google');
       })
       .catch(err => alert(":(" + err));
   }

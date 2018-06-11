@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-buttons left>
       <button ion-button (tap)="showMenu()">
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{ user.name }}</ion-title>
+    <ion-title>Agent {{ user.name }}</ion-title>
     <ion-buttons end>
       <button ion-end ion-button (tap)="addSession()">
         <ion-icon name="add-circle"></ion-icon>
@@ -19,7 +19,7 @@
 
 <ion-content padding>
   <div class="block_container">
-    <h1>Goals</h1>
+    <h1>Objectifs</h1>
 
     <div class="progress-wrapper">
       <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }}/{{ max }}</div>
@@ -32,10 +32,10 @@
       <ion-item>
         <div>List</div>
         <button *ngIf="listMode == 'normal'" item-end clear ion-button (tap)="setMode('edit')">
-          Edit
+          Modifier
         </button>
         <button *ngIf="listMode == 'edit'" item-end clear ion-button (tap)="setMode('normal')">
-          Close
+          Fermer
         </button>
       </ion-item>
 
@@ -54,7 +54,8 @@
   </div>
 
   <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
-    <button ion-button (tap)="addSession()">Log your first book!</button>
+    <p>Vous n'avez aucune scéance de lecture pour le moment.</p>
+    <button ion-button color="secondary" (tap)="addSession()">Inscrivez votre première scéance!</button>
   </div>
 
 </ion-content>
