@@ -32,15 +32,19 @@
 		<div class="fieldset">
             <ion-label stacked>Objectif</ion-label>
             <ion-row>
-				<ion-col><ion-input formControlName="goal" type="number" [class.invalid]="isFieldInvalid('goal')"></ion-input><span class="label">session(s)</span></ion-col>
+				<ion-col><ion-input formControlName="sessions" type="number" [class.invalid]="isFieldInvalid('sessions')"></ion-input><span class="label">session(s)</span></ion-col>
 			</ion-row>
 		</div>
 
-		<p *ngIf="myForm.controls.goal.value && myForm.controls.minutes.value">{{ myForm.controls.goal.value }} session(s) de {{ myForm.controls.minutes.value }} minute(s) pour un total de <span *ngIf="goalHours">{{ goalHours }} heure(s)</span><span *ngIf="goalMinutes && goalHours"> et </span><span *ngIf="goalMinutes">{{ goalMinutes }} minute(s)</span></p>
+		<p *ngIf="myForm.controls.sessions.value && myForm.controls.minutes.value">{{ myForm.controls.sessions.value }} session(s) de {{ myForm.controls.minutes.value }} minute(s) pour un total de <span *ngIf="goalHours">{{ goalHours }} heure(s)</span><span *ngIf="goalMinutes && goalHours"> et </span><span *ngIf="goalMinutes">{{ goalMinutes }} minute(s)</span></p>
 
 		<div style="text-align: center;">
 			<button *ngIf="userId == ''" ion-button (tap)="createUser()">Créer</button>
-			<button *ngIf="userId != ''" ion-button (tap)="UpdateUser()">Modifier</button>
+			<button *ngIf="userId != ''" ion-button (tap)="updateUser()">Modifier</button>
+		</div>
+
+		<div style="text-align: center;">
+			<button *ngIf="userId != ''" ion-button clear (tap)="deleteUser()">Supprimer</button>
 		</div>
 	</form>
 

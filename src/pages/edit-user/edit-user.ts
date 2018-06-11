@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, NavController, NavParams, ViewController } from 'ionic-angular';
+import { AlertController, App, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,7 +16,10 @@ import { DataProvider } from '../../providers/data/data'
 export class EditUserPage {
 
   isMandatory:boolean = true;
+
+  // @TODO: Keep only the user, not the userId since it's already in the User
   userId:string = "";
+  user:any;
 
   myForm:any;
 
@@ -25,9 +28,19 @@ export class EditUserPage {
   goalMinutes:number = 0;
   goalHours:number = 0;
 
-  constructor(private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
+  constructor(private alertCtrl:AlertController, private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
+
+    let defaultName:string = "";
+    let defaultMinutes:number = 20;
+    let defaultSessions:number = 36;
+
     if (navParams.get("userId") != null) {
       this.userId = navParams.get("userId");
+      this.user = this.dataProvider.getUser(this.userId);
+      
+      defaultName = this.user['name'];
+      defaultMinutes = this.user['minutes'];
+      defaultSessions = this.user['sessions'];
     }
 
     if (navParams.get("isMandatory") != null) {
@@ -35,19 +48,19 @@ export class EditUserPage {
     }
 
     this.myForm = formBuilder.group({
-        name: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-z ]*'), Validators.required])],
-        minutes: ['20', TimeValidator.isValid],
-        goal: ['36', TimeValidator.isValid],
+        name: [defaultName, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-z ]*'), Validators.required])],
+        minutes: [defaultMinutes, TimeValidator.isValid],
+        sessions: [defaultSessions, TimeValidator.isValid],
     });
 
-    this.calculateTotal(this.myForm.controls.minutes.value, this.myForm.controls.goal.value);
+    this.calculateTotal(this.myForm.controls.minutes.value, this.myForm.controls.sessions.value);
   }
 
   ionViewDidEnter() {
     const myFormValueChanges = this.myForm.valueChanges;
 
     myFormValueChanges.subscribe(control => {
-      this.calculateTotal(control.minutes, control.goal);
+      this.calculateTotal(control.minutes, control.sessions);
     });
   }
 
@@ -73,7 +86,7 @@ export class EditUserPage {
     this.submitAttempt = (!this.myForm.valid);
 
     if (this.myForm.valid) {
-      let userId = this.dataProvider.addUser(this.myForm.value.name, this.myForm.value.minutes, this.myForm.value.goal);
+      let userId = this.dataProvider.addUser(this.myForm.value.name, this.myForm.value.minutes, this.myForm.value.sessions);
 
       if (!this.isMandatory) {
         this.close();
@@ -82,4 +95,49 @@ export class EditUserPage {
       this.app.getRootNav().setRoot(HomePage, {userId: userId});
     }
   }
+
+  updateUser() {
+    this.submitAttempt = (!this.myForm.valid);
+
+    if (this.myForm.valid) {
+
+      this.user['name'] = "aaaa";
+
+      console.log(this.dataProvider.getUsers());
+
+      this.dataProvider.editUser(this.myForm.value.name, this.myForm.value.minutes, this.myForm.value.sessions, this.userId);
+
+      if (!this.isMandatory) {
+        this.close();
+      }
+
+      this.app.getRootNav().setRoot(HomePage, {userId: this.userId});
+    }
+  }
+
+  deleteUser() {
+    const confirm = this.alertCtrl.create({
+      title: 'Confirmation?',
+      message: 'Veuillez confirmer la supression de l\'utilisateur : ' + this.user['name'],
+      buttons: [{
+        text: 'Annuler',
+        handler: () => {
+        }
+      },{
+        text: 'Supprimer',
+        handler: () => {
+          this.dataProvider.removeUser(this.userId);
+          this.close();
+
+          if (this.dataProvider.getUsers().length == 0) {
+            this.navCtrl.setRoot(EditUserPage);
+          } else {
+            this.app.getRootNav().setRoot(HomePage, {userId: this.dataProvider.getUsers()[0]['id']});
+          }
+        }
+      }]
+    });
+    confirm.present();
+  }
+
 }
