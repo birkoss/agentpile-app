@@ -107,7 +107,7 @@ export class DataProvider {
         this.save();
     }
 
-    removeSession(userId:number, session:object) {
+    removeSession(userId:any, session:object) {
        this.getSession(userId).forEach(single_session => {
            if (single_session['bookName'] == session['bookName'] && single_session['when'] == session['when']) {
                single_session['status'] = 'deleted';

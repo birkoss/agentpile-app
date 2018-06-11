@@ -8,13 +8,15 @@ import { DataProvider } from '../../providers/data/data'
 import { TimeValidator } from  '../../validators/time';
 
 @Component({
-	selector: 'page-new-session',
-	templateUrl: 'new-session.html'
+	selector: 'page-edit-session',
+	templateUrl: 'edit-session.html'
 })
-export class NewSessionPage {
+export class EditSessionPage {
 
   isMandatory:boolean = true;
   userId:number = 0;
+  
+  sessionId:string = "";
 
   myForm:any;
 
@@ -41,7 +43,8 @@ export class NewSessionPage {
     this.myForm = formBuilder.group({
         name: ['', Validators.compose([Validators.maxLength(100), Validators.pattern("[0-9a-zA-z -!.']*"), Validators.required])],
         hours: ['0'],
-        minutes: [this.minutes]
+        minutes: [this.minutes],
+        isCompleted: false
     });
   }
 

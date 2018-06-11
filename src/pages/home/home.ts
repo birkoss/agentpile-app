@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, MenuController, ModalController, NavController, NavParams } from 'ionic-angular';
 
-import { NewSessionPage } from '../../pages/new-session/new-session';
+import { EditSessionPage } from '../../pages/edit-session/edit-session';
 
 import { DataProvider } from '../../providers/data/data'
 
@@ -47,7 +47,7 @@ export class HomePage {
   }
 
   addSession() {
-    const modal = this.modalCtrl.create(NewSessionPage, {userId:this.userId, minutes:this.user['minutes'], callback:this.refresh.bind(this)});
+    const modal = this.modalCtrl.create(EditSessionPage, {userId:this.userId, minutes:this.user['minutes'], callback:this.refresh.bind(this)});
     modal.present();
   }
 

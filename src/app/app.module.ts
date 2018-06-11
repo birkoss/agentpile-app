@@ -6,7 +6,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoadingPage } from '../pages/loading/loading';
 import { LoginPage } from '../pages/login/login';
-import { NewSessionPage } from '../pages/new-session/new-session';
+import { EditSessionPage } from '../pages/edit-session/edit-session';
 import { EditUserPage } from '../pages/edit-user/edit-user';
 import { SessionCompletedPage } from '../pages/session-completed/session-completed';
 
@@ -28,7 +28,7 @@ import { ApiProvider } from '../providers/api/api';
     HomePage,
     LoadingPage,
     LoginPage,
-    NewSessionPage,
+    EditSessionPage,
     EditUserPage,
     SessionCompletedPage
   ],
@@ -44,7 +44,7 @@ import { ApiProvider } from '../providers/api/api';
     HomePage,
     LoadingPage,
     LoginPage,
-    NewSessionPage,
+    EditSessionPage,
     EditUserPage,
     SessionCompletedPage
   ],
