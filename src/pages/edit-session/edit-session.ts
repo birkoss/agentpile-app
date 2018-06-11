@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, NavController, NavParams, ViewController } from 'ionic-angular';
+import { AlertController, App, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -29,7 +29,7 @@ export class EditSessionPage {
 
   minMinutes:number = 0;
 
-  constructor(private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
+  constructor(private alertCtrl:AlertController, private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
 
     let hours:number = 0;
 
@@ -113,11 +113,10 @@ export class EditSessionPage {
     return this.session['id'] == '';
   }
 
-  deleteSession(session) {
-    /*
+  deleteSession() {
     const confirm = this.alertCtrl.create({
       title: 'Are you sure?',
-      message: 'Please confirm you want to delete this session : ' + session['bookName'],
+      message: 'Please confirm you want to delete this session : ' + this.session['bookName'],
       buttons: [{
         text: 'Cancel',
         handler: () => {
@@ -126,12 +125,13 @@ export class EditSessionPage {
       },{
         text: 'Delete',
         handler: () => {
-          this.dataProvider.removeSession(this.userId, session);
+          this.dataProvider.removeSession(this.session['userId'], this.session['id']);
+
+          this.close();
         }
       }]
     });
     confirm.present();
-    */
   }
 
 }

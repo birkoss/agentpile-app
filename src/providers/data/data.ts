@@ -135,9 +135,9 @@ export class DataProvider {
         return this.getSessions(userId).find(single_session => single_session['id'] == sessionId);
     }
 
-    removeSession(userId:any, session:object) {
+    removeSession(userId:any, sessionId:string) {
        this.getSessions(userId).forEach(single_session => {
-           if (single_session['bookName'] == session['bookName'] && single_session['when'] == session['when']) {
+           if (single_session['id'] == sessionId) {
                single_session['status'] = 'deleted';
            }
        });
@@ -157,11 +157,18 @@ export class DataProvider {
 	}
 
     getAllSessions(userId):Array<Object> {
-        return this.data['sessions'][userId].slice(-1)[0].reverse();
+        return this.data['sessions'][userId].slice(-1)[0];
     }
 
     getSessions(userId):Array<Object> {
-        return this.getAllSessions(userId).filter(single_session => single_session['status'] == 'active');
+        return this.getAllSessions(userId).filter(single_session => single_session['status'] == 'active').sort((a, b) => {
+            if (a['id'] < b['id']) {
+                return -1
+            } else if (a['id'] > b['id']) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     getAllUsers():Array<Object> {
