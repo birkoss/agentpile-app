@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { AlertController, MenuController, ModalController, Nav, Platform } from 'ionic-angular';
+import { MenuController, ModalController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoadingPage } from '../pages/loading/loading';
 import { HomePage } from '../pages/home/home';
-import { NewUserPage } from '../pages/new-user/new-user';
+import { EditUserPage } from '../pages/edit-user/edit-user';
 
 import { DataProvider } from '../providers/data/data';
 
@@ -19,19 +19,22 @@ export class MyApp {
 
   menuMode:string = "normal";
 
-  constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, public platform:Platform, public statusBar:StatusBar, public splashScreen:SplashScreen) {
+  constructor(private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, public platform:Platform, public statusBar:StatusBar, public splashScreen:SplashScreen) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
+
+      this.statusBar.overlaysWebView(true);
+      this.statusBar.backgroundColorByHexString('#F57C00');
+
       this.splashScreen.hide();
     });
   }
 
   loadUser(user) {
-    console.log(user);
     this.nav.setRoot(HomePage, {userId:user.id});
   }
 
@@ -40,28 +43,18 @@ export class MyApp {
   }
 
   createUser() {
-    const modal = this.modalCtrl.create(NewUserPage, {isMandatory:false});
+    const modal = this.modalCtrl.create(EditUserPage, {isMandatory:false});
     modal.present();
 
+    this.setMode('normal');
     this.menuCtrl.close();
   }
 
-  deleteUser(user) {
-    const confirm = this.alertCtrl.create({
-      title: 'Are you sure?',
-      message: 'Please confirm you want to delete this user : ' + user['name'],
-      buttons: [{
-        text: 'Cancel',
-        handler: () => {
-          console.log('Disagree clicked');
-        }
-      },{
-        text: 'Delete',
-        handler: () => {
-          this.dataProvider.removeUser(user['id']);
-        }
-      }]
-    });
-    confirm.present();
+  editUser(user) {
+    const modal = this.modalCtrl.create(EditUserPage, {isMandatory:false, userId:user['id']});
+    modal.present();
+
+    this.setMode('normal');
+    this.menuCtrl.close();
   }
 }

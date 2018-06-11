@@ -7,7 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { LoadingPage } from '../pages/loading/loading';
 import { LoginPage } from '../pages/login/login';
 import { NewSessionPage } from '../pages/new-session/new-session';
-import { NewUserPage } from '../pages/new-user/new-user';
+import { EditUserPage } from '../pages/edit-user/edit-user';
 import { SessionCompletedPage } from '../pages/session-completed/session-completed';
 
 import { IonicStorageModule } from '@ionic/storage';
@@ -29,7 +29,7 @@ import { ApiProvider } from '../providers/api/api';
     LoadingPage,
     LoginPage,
     NewSessionPage,
-    NewUserPage,
+    EditUserPage,
     SessionCompletedPage
   ],
   imports: [
@@ -45,7 +45,7 @@ import { ApiProvider } from '../providers/api/api';
     LoadingPage,
     LoginPage,
     NewSessionPage,
-    NewUserPage,
+    EditUserPage,
     SessionCompletedPage
   ],
   providers: [

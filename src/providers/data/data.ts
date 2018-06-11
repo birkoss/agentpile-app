@@ -28,10 +28,6 @@ export class DataProvider {
                         this.data[key] = data[key];
                     }
                     console.log("loading: ", data, this.data);
-                } else {
-					if (this.isDebug()) {
-						this.login('debug', 'browser');
-					}
                 }
                 resolve("ok");
             });
@@ -43,17 +39,15 @@ export class DataProvider {
     }
 
     addUser(name, minutes, sessions) {
-    	let newId:number = 0;
-    	this.data['users'].forEach(single_user => {
-    		newId = Math.max(single_user['id'], newId);
-    	});
-    	newId++;
+    	let newId:string = "tmp_" + this.generateId();
 
     	this.data['users'].push({
     		id:newId,
     		name:name,
     		minutes:minutes,
-    		sessions:sessions
+    		sessions:sessions,
+            status:'active',
+            isDirty:true
     	});
 
         this.data['sessions'][newId] = [[]];
@@ -63,8 +57,32 @@ export class DataProvider {
     	return newId;
     }
 
-    removeUser(userId:number) {
-    	this.data['users'] = this.data['users'].filter(single_user => single_user['id'] != userId);
+    editUser(name, minutes, sessions, userId) {
+        this.data['users'].forEach(single_user => {
+            if (single_user['id'] == userId) {
+                single_user['name'] = name;
+                single_user['minutes'] = minutes;
+                single_user['sessions'] = sessions;
+                single_user['isDirty'] = true;
+
+            }
+        });
+
+        this.save();
+
+        return userId;
+    }
+
+    getUser(userId:string) {
+        return this.data['users'].find(single_user => single_user['id'] == userId);
+    }
+
+    removeUser(userId:string) {
+        this.data['users'].forEach(single_user => {
+            if (single_user['id'] == userId) {
+                single_user['status'] = 'deleted';
+            }
+        });
     	
     	this.save();
     }
@@ -115,8 +133,12 @@ export class DataProvider {
         return this.getAllSessions(userId).filter(single_session => single_session['status'] == 'active');
     }
 
+    getAllUsers():Array<Object> {
+        return this.data['users'];
+    }
+
 	getUsers():Array<Object> {
-		return this.data['users'];
+		return this.getAllUsers().filter(single_user => single_user['status'] == 'active');
 	}
 
 	isLoggedIn():boolean {
@@ -133,4 +155,14 @@ export class DataProvider {
 	isDebug():boolean {
 		return !((<any>window).cordova);
 	}
+
+    generateId():string {
+      let text = "";
+      let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      for (let i = 0; i < 16; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+      return text;
+    }
 }

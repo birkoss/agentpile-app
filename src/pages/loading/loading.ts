@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { LoginPage } from '../../pages/login/login';
@@ -14,31 +14,23 @@ import { DataProvider } from '../../providers/data/data'
 export class LoadingPage {
   loading:any;
 
-  constructor(private dataProvider:DataProvider, private loadingCtrl:LoadingController, private navCtrl:NavController) {}
+  constructor(private dataProvider:DataProvider, private navCtrl:NavController) {}
 
   ionViewDidEnter() {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'hide',
-      content: 'Loading...'
-    });
-    this.loading.present();
-
-    let me = this;
     this.dataProvider.load()
-    .then(function(str) {
-        me.loading.dismiss();
-
-        if (me.dataProvider.isLoggedIn()) {
-          if (me.dataProvider.getUsers().length == 0) {
-            me.navCtrl.setRoot(EditUserPage);
+    .then((str) => {
+        if (this.dataProvider.isLoggedIn()) {
+          if (this.dataProvider.getUsers().length == 0) {
+            this.navCtrl.setRoot(EditUserPage);
           } else {
             // @TODO: Must remember the last user and load it
-            me.navCtrl.setRoot(HomePage, {userId: me.dataProvider.getUsers()[0]['id']});
+            this.navCtrl.setRoot(HomePage, {userId: this.dataProvider.getUsers()[0]['id']});
           }
         } else {
-          me.navCtrl.setRoot(LoginPage);
+          this.navCtrl.setRoot(LoginPage);
         }
-    })
-    .catch((err) => { alert("NOP: " + err)});
+    }, (error) => {
+      alert("NOP: " + error);
+    });
   }
 }

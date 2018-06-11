@@ -1,28 +1,28 @@
 <ion-menu [content]="content">
-  <ion-header>
-    NAME
+  <ion-header color="primary">
+    Agent Pile
   </ion-header>
 
   <ion-content>
     <ion-list>
       <ion-item>
         <div>Liste des usagers</div>
-        <button *ngIf="menuMode == 'normal'" item-end clear ion-button (tap)="createUser()">
+        <button *ngIf="menuMode == 'normal'" color="secondary" item-end clear ion-button (tap)="createUser()">
           <ion-icon name="add-circle"></ion-icon>
         </button>
-        <button *ngIf="menuMode == 'normal'" item-end clear ion-button (tap)="setMode('edit')">
-          Edit
+        <button *ngIf="menuMode == 'normal'" color="secondary" item-end clear ion-button (tap)="setMode('edit')">
+          Modifier
         </button>
-        <button *ngIf="menuMode == 'edit'" item-end clear ion-button (tap)="setMode('normal')">
-          Close
+        <button *ngIf="menuMode == 'edit'" color="secondary" item-end clear ion-button (tap)="setMode('normal')">
+          Fermer
         </button>
       </ion-item>
       <button menuClose ion-item *ngFor="let u of dataProvider.getUsers()" (tap)="loadUser(u)">
         <ion-icon name="book"></ion-icon>
         <div class="name">{{u.name}}</div>
         <div *ngIf="menuMode == 'normal'" class="status" item-end>{{ dataProvider.getSession(u.id).length }} / {{ u.sessions }}</div>
-        <button color="danger" *ngIf="menuMode == 'edit'" item-end ion-button (tap)="deleteUser(u)">
-          <ion-icon name="trash"></ion-icon>
+        <button color="secondary" *ngIf="menuMode == 'edit'" item-end ion-button (tap)="editUser(u)">
+          <ion-icon name="create"></ion-icon>
         </button>
       </button>
     </ion-list>
