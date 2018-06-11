@@ -36,7 +36,7 @@
 			</ion-row>
 		</div>
 
-		<p *ngIf="myForm.controls.sessions.value && myForm.controls.minutes.value">{{ myForm.controls.sessions.value }} session(s) de {{ myForm.controls.minutes.value }} minute(s) pour un total de <span *ngIf="goalHours">{{ goalHours }} heure(s)</span><span *ngIf="goalMinutes && goalHours"> et </span><span *ngIf="goalMinutes">{{ goalMinutes }} minute(s)</span></p>
+		<p class="resume" *ngIf="myForm.controls.sessions.value && myForm.controls.minutes.value">{{ myForm.controls.sessions.value }} session(s) de {{ myForm.controls.minutes.value }} minute(s) pour un total de <span *ngIf="goalHours">{{ goalHours }} heure(s)</span><span *ngIf="goalMinutes && goalHours"> et </span><span *ngIf="goalMinutes">{{ goalMinutes }} minute(s)</span></p>
 
 		<div style="text-align: center;">
 			<button *ngIf="userId == ''" color="secondary" ion-button (tap)="createUser()">Créer</button>
