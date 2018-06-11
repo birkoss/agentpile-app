@@ -21,7 +21,7 @@
       <button [ngClass]="{'is-active' : dataProvider.getActiveUser() == u.id}" menuClose ion-item *ngFor="let u of dataProvider.getUsers()" (tap)="loadUser(u)">
         <ion-icon name="book"></ion-icon>
         <div class="name">{{u.name}}</div>
-        <div *ngIf="menuMode == 'normal'" class="status" item-end>{{ dataProvider.getSession(u.id).length }} / {{ u.sessions }}</div>
+        <div *ngIf="menuMode == 'normal'" class="status" item-end>{{ dataProvider.getSessions(u.id).length }} / {{ u.sessions }}</div>
         <button color="secondary" *ngIf="menuMode == 'edit'" item-end ion-button (tap)="editUser(u)">
           <ion-icon name="create"></ion-icon>
         </button>

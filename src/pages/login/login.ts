@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { Storage } from '@ionic/storage';
-
 import { GooglePlus } from '@ionic-native/google-plus';
 
 import { LoadingPage } from '../../pages/loading/loading';

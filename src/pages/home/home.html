@@ -46,8 +46,8 @@
         <h2>{{ s.bookName }}</h2>
         <h3><ion-icon name="time"></ion-icon> {{ s.minutes }} min(s)</h3>
         <p><ion-icon name="calendar"></ion-icon> {{ s.when }}</p>
-        <button color="danger" *ngIf="listMode == 'edit'" item-end ion-button (tap)="deleteSession(s)">
-          <ion-icon name="trash"></ion-icon>
+        <button color="secondary" *ngIf="listMode == 'edit'" item-end ion-button (tap)="editSession(s)">
+          <ion-icon name="create"></ion-icon>
         </button>
       </ion-item>
     </ion-list>

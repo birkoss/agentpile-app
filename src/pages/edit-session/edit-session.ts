@@ -13,38 +13,54 @@ import { TimeValidator } from  '../../validators/time';
 })
 export class EditSessionPage {
 
-  isMandatory:boolean = true;
-  userId:number = 0;
+  session:Object = {
+    id:'',
+    bookName:'',
+    authorName:'',
+    isCompleted:false,
+    pageBookmark:0
+  };
   
-  sessionId:string = "";
-
   myForm:any;
 
   submitAttempt:boolean = false;
 
-  goalMinutes:number = 0;
-  goalHours:number = 0;
-
-  minutes:number = 0;
-
   callback:any = null;
 
+  minMinutes:number = 0;
+
   constructor(private app:App, private dataProvider:DataProvider, private formBuilder:FormBuilder, private navCtrl:NavController, private navParams:NavParams, private viewCtrl:ViewController) {
-    if (navParams.get("userId") != null) {
-      this.userId = navParams.get("userId");
-    }
+
+    let hours:number = 0;
+
     if (navParams.get("minutes") != null) {
-      this.minutes = navParams.get("minutes");
+      this.minMinutes = navParams.get("minutes");
+      this.session['minutes'] = navParams.get("minutes");
     }
+
+    if (navParams.get("session") != null) {
+      this.session = JSON.parse(JSON.stringify(navParams.get("session")));
+      this.session['userId'] = navParams.get("userId");
+
+      // Update the minutes and hours
+      hours = Math.floor(this.session['minutes'] / 60);
+      this.session['minutes'] = this.session['minutes'] - (hours * 60);
+
+    } else if (navParams.get("userId") != null) {
+      this.session['userId'] = navParams.get("userId");
+    }
+
     if (navParams.get("callback") != null) {
       this.callback = navParams.get("callback");
     }
 
     this.myForm = formBuilder.group({
-        name: ['', Validators.compose([Validators.maxLength(100), Validators.pattern("[0-9a-zA-z -!.']*"), Validators.required])],
-        hours: ['0'],
-        minutes: [this.minutes],
-        isCompleted: false
+        name: [this.session['bookName'], Validators.compose([Validators.maxLength(100), Validators.pattern("[0-9a-zA-z -!.']*"), Validators.required])],
+        hours: [ hours ],
+        minutes: [this.session['minutes']],
+        author: [ this.session['authorName'] ],
+        isCompleted: [ this.session['isCompleted'] ],
+        page: [ this.session['pageBookmark'] ]
     });
   }
 
@@ -61,20 +77,61 @@ export class EditSessionPage {
   }
 
   createSession() {
-    this.submitAttempt = (!this.myForm.valid);
-
-    let total = (parseInt(this.myForm.controls.hours.value)*60) + parseInt(this.myForm.controls.minutes.value);
-    if (total < this.minutes) {
-      this.myForm.controls.hours.setErrors({a: {a:'aa'}});
-      this.myForm.controls.minutes.setErrors({a: {a:'aa'}});
-      
-    }
+    this.validateSession();
 
     if (this.myForm.valid) {
       let minutes = (parseInt(this.myForm.controls.hours.value) * 60) + parseInt(this.myForm.controls.minutes.value);
-      this.dataProvider.addSession(this.userId, this.myForm.value.name, minutes);
+      this.dataProvider.addSession(this.session['userId'], this.myForm.value.name, minutes, this.myForm.value.author, this.myForm.value.isCompleted, this.myForm.value.page);
 
       this.close();
     }
   }
+
+  updateSession() {
+    this.validateSession();
+
+    if (this.myForm.valid) {
+      let minutes = (parseInt(this.myForm.controls.hours.value) * 60) + parseInt(this.myForm.controls.minutes.value);
+      
+      this.dataProvider.editSession(this.session['userId'], this.myForm.value.name, minutes, this.myForm.value.author, this.myForm.value.isCompleted, this.myForm.value.page, this.session['id']);
+
+      this.close();
+    }
+  }
+
+  validateSession() {
+    this.submitAttempt = (!this.myForm.valid);
+
+    let total = (parseInt(this.myForm.controls.hours.value)*60) + parseInt(this.myForm.controls.minutes.value);
+    if (total < this.minMinutes) {
+      this.myForm.controls.hours.setErrors({a: {a:'aa'}});
+      this.myForm.controls.minutes.setErrors({a: {a:'aa'}});
+    }
+  }
+
+  isNew():boolean {
+    return this.session['id'] == '';
+  }
+
+  deleteSession(session) {
+    /*
+    const confirm = this.alertCtrl.create({
+      title: 'Are you sure?',
+      message: 'Please confirm you want to delete this session : ' + session['bookName'],
+      buttons: [{
+        text: 'Cancel',
+        handler: () => {
+          console.log('Disagree clicked');
+        }
+      },{
+        text: 'Delete',
+        handler: () => {
+          this.dataProvider.removeSession(this.userId, session);
+        }
+      }]
+    });
+    confirm.present();
+    */
+  }
+
 }

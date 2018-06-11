@@ -90,25 +90,53 @@ export class DataProvider {
     	this.save();
     }
 
-    addSession(userId:number, bookName:string, minutes:Number) {
+    addSession(userId:number, bookName:string, minutes:Number, authorName:string, isCompleted:boolean, pageBookmark:number) {
         let dateObj = new Date();
         let month = dateObj.getUTCMonth() + 1; //months from 1-12
         let day = dateObj.getUTCDate();
         let year = dateObj.getUTCFullYear();
 
         this.getAllSessions(userId).push({
+            id:'tmp_' + this.generateId(),
             bookName:bookName,
+            authorName:authorName,
+            isCompleted:isCompleted,
+            pageBookmark:pageBookmark,
             minutes:minutes,
             when:year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day,
-            isSaved:false,
+            isDirty:true,
             status:'active'
         });
 
         this.save();
     }
 
+    editSession(userId:number, bookName:string, minutes:Number, authorName:string, isCompleted:boolean, pageBookmark:number, sessionId:string) {
+        let dateObj = new Date();
+        let month = dateObj.getUTCMonth() + 1; //months from 1-12
+        let day = dateObj.getUTCDate();
+        let year = dateObj.getUTCFullYear();
+
+        this.getSessions(userId).forEach(single_session => {
+            if (single_session['id'] == sessionId) {
+                single_session['bookName'] = bookName;
+                single_session['minutes'] = minutes;
+                single_session['authorName'] = authorName;
+                single_session['isCompleted'] = isCompleted;
+                single_session['pageBookmark'] = pageBookmark;
+                single_session['isDirty'] = true;
+            }
+        });
+
+        this.save();
+    }
+
+    getSession(userId:string, sessionId:string) {
+        return this.getSessions(userId).find(single_session => single_session['id'] == sessionId);
+    }
+
     removeSession(userId:any, session:object) {
-       this.getSession(userId).forEach(single_session => {
+       this.getSessions(userId).forEach(single_session => {
            if (single_session['bookName'] == session['bookName'] && single_session['when'] == session['when']) {
                single_session['status'] = 'deleted';
            }
@@ -132,7 +160,7 @@ export class DataProvider {
         return this.data['sessions'][userId].slice(-1)[0].reverse();
     }
 
-    getSession(userId):Array<Object> {
+    getSessions(userId):Array<Object> {
         return this.getAllSessions(userId).filter(single_session => single_session['status'] == 'active');
     }
 

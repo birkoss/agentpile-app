@@ -51,23 +51,9 @@ export class HomePage {
     modal.present();
   }
 
-  deleteSession(session) {
-    const confirm = this.alertCtrl.create({
-      title: 'Are you sure?',
-      message: 'Please confirm you want to delete this session : ' + session['bookName'],
-      buttons: [{
-        text: 'Cancel',
-        handler: () => {
-          console.log('Disagree clicked');
-        }
-      },{
-        text: 'Delete',
-        handler: () => {
-          this.dataProvider.removeSession(this.userId, session);
-        }
-      }]
-    });
-    confirm.present();
+  editSession(session:object) {
+    const modal = this.modalCtrl.create(EditSessionPage, {userId:this.userId, minutes:this.user['minutes'], session:session});
+    modal.present();
   }
 
   getProgression():number {
@@ -75,7 +61,7 @@ export class HomePage {
   }
 
   getSessions():Array<Object> {
-    return this.dataProvider.getSession(this.userId);
+    return this.dataProvider.getSessions(this.userId);
   }
 
   getOverlayStyle() {
