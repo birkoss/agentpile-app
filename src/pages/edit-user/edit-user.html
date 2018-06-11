@@ -1,6 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>New User</ion-title>
+    <ion-title *ngIf="userId == ''">Nouvel Agent</ion-title>
+    <ion-title *ngIf="userId != ''">Agent Existant</ion-title>
     <ion-buttons *ngIf="!isMandatory" end>
       <button ion-end ion-button (tap)="close()">
         <ion-icon name="close"></ion-icon>
@@ -15,30 +16,31 @@
 
  	<form [formGroup]="myForm">
 		<div class="fieldset">
-            <ion-label stacked>Name</ion-label>
+            <ion-label stacked>Nom de l'agent</ion-label>
             <ion-row>
 				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
 			</ion-row>
         </div>
 
 		<div class="fieldset">
-            <ion-label stacked>Time</ion-label>
+            <ion-label stacked>Temps par scéance</ion-label>
 			<ion-row>
 				<ion-col><ion-input type="number" formControlName="minutes" placeholder="0" [class.invalid]="isFieldInvalid('minutes')"></ion-input><span class="label">minute(s)</span></ion-col>
 			</ion-row>
         </div>
 
 		<div class="fieldset">
-            <ion-label stacked>Goal</ion-label>
+            <ion-label stacked>Objectif</ion-label>
             <ion-row>
 				<ion-col><ion-input formControlName="goal" type="number" [class.invalid]="isFieldInvalid('goal')"></ion-input><span class="label">session(s)</span></ion-col>
 			</ion-row>
 		</div>
 
-		<p *ngIf="myForm.controls.goal.value && myForm.controls.minutes.value">{{ myForm.controls.goal.value }} session(s) of {{ myForm.controls.minutes.value }} minute(s) for a total of <span *ngIf="goalHours">{{ goalHours }} hour(s)</span><span *ngIf="goalMinutes && goalHours"> and </span><span *ngIf="goalMinutes">{{ goalMinutes }} minute(s)</span></p>
+		<p *ngIf="myForm.controls.goal.value && myForm.controls.minutes.value">{{ myForm.controls.goal.value }} session(s) de {{ myForm.controls.minutes.value }} minute(s) pour un total de <span *ngIf="goalHours">{{ goalHours }} heure(s)</span><span *ngIf="goalMinutes && goalHours"> et </span><span *ngIf="goalMinutes">{{ goalMinutes }} minute(s)</span></p>
 
 		<div style="text-align: center;">
-			<button ion-button (tap)="createUser()">Create</button>
+			<button *ngIf="userId == ''" ion-button (tap)="createUser()">Créer</button>
+			<button *ngIf="userId != ''" ion-button (tap)="UpdateUser()">Modifier</button>
 		</div>
 	</form>
 

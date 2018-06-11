@@ -76,14 +76,10 @@ export class EditUserPage {
       let userId = this.dataProvider.addUser(this.myForm.value.name, this.myForm.value.minutes, this.myForm.value.goal);
 
       if (!this.isMandatory) {
-        this.viewCtrl.dismiss().then(() => {
-          //this.navCtrl.setRoot(HomePage, {userId: userId});
-        });
+        this.close();
       }
 
       this.app.getRootNav().setRoot(HomePage, {userId: userId});
-
-      console.log(this.navCtrl);
     }
   }
 }
