@@ -18,7 +18,7 @@
           Fermer
         </button>
       </ion-item>
-      <button menuClose ion-item *ngFor="let u of dataProvider.getUsers()" (tap)="loadUser(u)">
+      <button [ngClass]="{'is-active' : dataProvider.getActiveUser() == u.id}" menuClose ion-item *ngFor="let u of dataProvider.getUsers()" (tap)="loadUser(u)">
         <ion-icon name="book"></ion-icon>
         <div class="name">{{u.name}}</div>
         <div *ngIf="menuMode == 'normal'" class="status" item-end>{{ dataProvider.getSession(u.id).length }} / {{ u.sessions }}</div>

@@ -16,6 +16,9 @@ export class DataProvider {
 			},
 			'users': [],
             'sessions': {},
+            'settings': {
+                'active_user': ''
+            }
 		};
 	}
 
@@ -151,6 +154,20 @@ export class DataProvider {
 
         return loggedIn;
 	}
+
+    setActiveUser(userId:string):boolean {
+        if (userId != this.getActiveUser()) {
+            this.data['settings']['active_user'] = userId;
+            
+            this.save();
+            return true;
+        }
+        return false;
+    }
+
+    getActiveUser():string {
+        return this.data['settings']['active_user'];
+    }
 
 	isDebug():boolean {
 		return !((<any>window).cordova);

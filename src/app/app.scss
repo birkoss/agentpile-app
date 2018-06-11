@@ -11,7 +11,24 @@ ion-menu {
 	}
 
 	ion-list {
+
+		.item {
+			padding-left: 0 !important;
+
+			.item-inner {
+				padding: 8px 0px;
+
+				ion-label {
+					padding-left: 16px;
+				}
+			}
+		}
+
 		button {
+			&.is-active {
+				background-color: #F4F4F4;
+			}
+
 			ion-label {
 				display: flex;
 

@@ -15,7 +15,7 @@ export class HomePage {
   radius: number = 125;
   color: string = '#45ccce';
 
-  userId:number;
+  userId:string;
 
   user:any;
 
@@ -23,6 +23,8 @@ export class HomePage {
 
   constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams) {
     this.userId = this.navParams.get("userId");
+    this.dataProvider.setActiveUser(this.userId);
+
     this.user = this.dataProvider.getUsers().find(single_user => single_user['id'] == this.userId);
 
     this.max = this.user['sessions'];

@@ -22,7 +22,7 @@
     <h1>Objectifs</h1>
 
     <div class="progress-wrapper">
-      <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }}/{{ max }}</div>
+      <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }} / {{ max }}</div>
       <round-progress [current]="getProgression()" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
     </div>
   </div>
