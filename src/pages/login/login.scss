@@ -1,3 +1,11 @@
 page-login {
+	ion-content {
+		background-color: map-get($colors, primary) !important;
 
+		.scroll-content {
+			justify-content: center;
+		    display: flex;
+		    align-items: center;
+		}
+	}
 }

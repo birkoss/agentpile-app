@@ -1,10 +1,13 @@
 ion-menu {
 	ion-header {
-	    background-color: #f4f4f4;
 	    min-height: 150px;
 	    display: flex;
 	    justify-content: center;
 	    align-items: center;
+	}
+
+	ion-content {
+		background-color: map-get($colors, primary) !important;
 	}
 
 	ion-list {

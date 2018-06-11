@@ -19,6 +19,7 @@ export class LoadingPage {
   ionViewDidEnter() {
     this.dataProvider.load()
     .then((str) => {
+
         if (this.dataProvider.isLoggedIn()) {
           if (this.dataProvider.getUsers().length == 0) {
             this.navCtrl.setRoot(EditUserPage);
@@ -29,6 +30,7 @@ export class LoadingPage {
         } else {
           this.navCtrl.setRoot(LoginPage);
         }
+
     }, (error) => {
       alert("NOP: " + error);
     });

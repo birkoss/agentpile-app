@@ -1,12 +1,13 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" (ionClose)="menuClosed()">
+
   <ion-header color="primary">
-    Agent Pile
+    <h1>Agent Pile</h1>
   </ion-header>
 
   <ion-content>
     <ion-list>
       <ion-item>
-        <div>Liste des usagers</div>
+        <div>Liste des agents</div>
         <button *ngIf="menuMode == 'normal'" color="secondary" item-end clear ion-button (tap)="createUser()">
           <ion-icon name="add-circle"></ion-icon>
         </button>

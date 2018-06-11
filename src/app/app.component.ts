@@ -42,11 +42,14 @@ export class MyApp {
     this.menuMode = newMode;
   }
 
+  menuClosed() {
+    this.setMode('normal');
+  }
+
   createUser() {
     const modal = this.modalCtrl.create(EditUserPage, {isMandatory:false});
     modal.present();
 
-    this.setMode('normal');
     this.menuCtrl.close();
   }
 
@@ -54,7 +57,6 @@ export class MyApp {
     const modal = this.modalCtrl.create(EditUserPage, {isMandatory:false, userId:user['id']});
     modal.present();
 
-    this.setMode('normal');
     this.menuCtrl.close();
   }
 }
