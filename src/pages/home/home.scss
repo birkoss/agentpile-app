@@ -27,12 +27,46 @@ page-home {
 	}
 
 	ion-list {
+
+		ion-icon[name="checkmark"]:before {
+			color: map-get($colors, secondary) !important;
+		}
+
+		ion-icon[name="bookmarks"]:before {
+			color: map-get($colors, secondary-light) !important;
+		}
+
 		h2 {
 			white-space: normal;
+			margin-bottom: 6px !important;
+
+			span.bookName {
+				font-style: italic;
+			}
 		}
 
 		ion-item {
 			padding-left: 0 !important;
+		}
+
+		div.meta {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		div.meta h3 {
+			margin-top: 0 !important;
+			display: flex;
+			align-items: center;
+
+			ion-icon {
+				margin-right: 5px;
+			}
+		}
+
+		div.meta * {
+			color: #bbbbbb;
 		}
 
 		ion-avatar {
@@ -41,4 +75,6 @@ page-home {
 			}
 		}
 	}
+
+
 }

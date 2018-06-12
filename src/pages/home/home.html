@@ -30,7 +30,7 @@
   <div class="block_container" *ngIf="getProgression() > 0">
     <ion-list>
       <ion-item>
-        <div>List</div>
+        <div>Liste</div>
         <button *ngIf="listMode == 'normal'" color="secondary" item-end clear ion-button (tap)="setMode('edit')">
           Modifier
         </button>
@@ -41,11 +41,14 @@
 
       <ion-item *ngFor="let s of getSessions()">
         <ion-avatar item-start>
-          <ion-icon name="checkmark"></ion-icon>
+          <ion-icon *ngIf="s.isCompleted" name="checkmark"></ion-icon>
+          <ion-icon *ngIf="!s.isCompleted" name="bookmarks"></ion-icon>
         </ion-avatar>
-        <h2>{{ s.bookName }}</h2>
-        <h3><ion-icon name="time"></ion-icon> {{ s.minutes }} min(s)</h3>
-        <p><ion-icon name="calendar"></ion-icon> {{ s.when }}</p>
+        <h2><span class="bookName">{{ s.bookName }}</span><span *ngIf="s.authorName"> de {{ s.authorName }}</span></h2>
+        <div class="meta">
+          <h3><ion-icon name="time"></ion-icon> {{ s.minutes }} minutes</h3>
+          <h3><ion-icon name="calendar"></ion-icon> {{ s.when }}</h3>
+        </div>
         <button color="secondary" *ngIf="listMode == 'edit'" item-end ion-button (tap)="editSession(s)">
           <ion-icon name="create"></ion-icon>
         </button>
@@ -56,6 +59,25 @@
   <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
     <p>Vous n'avez aucune scéance de lecture pour le moment.</p>
     <button ion-button color="secondary" (tap)="addSession()">Inscrivez votre première scéance!</button>
+  </div>
+
+  <div class="block_container" *ngIf="getArchives().length > 0">
+    <ion-list>
+      <ion-item>
+        <div>Archives</div>
+      </ion-item>
+
+      <ion-item *ngFor="let a of getArchives()">
+        <ion-avatar item-start>
+          <ion-icon  name="cube"></ion-icon>
+        </ion-avatar>
+        <h2><span class="bookName">{{ a.bookName }}</span><span *ngIf="a.authorName"> de {{ a.authorName }}</span></h2>
+        <div class="meta">
+          <h3><ion-icon name="book"></ion-icon> {{ a.sessions.length }} scéances</h3>
+          <h3><ion-icon name="calendar"></ion-icon> {{ a.sessions[ a.sessions.length - 1 ]['when'] }}</h3>
+        </div>
+      </ion-item>
+    </ion-list>
   </div>
 
 </ion-content>

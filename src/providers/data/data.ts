@@ -188,6 +188,10 @@ export class DataProvider {
         return true;
     }
 
+    getArchives(userId:string) {
+        return this.data['archives'].filter(single_archive => single_archive['userId'] == userId);
+    }
+
     /* Account */
 
     login(id:string, token:string, platform:string) {
@@ -217,7 +221,7 @@ export class DataProvider {
     setActiveUser(userId:string):boolean {
         if (userId != this.getActiveUser()) {
             this.data['settings']['active_user'] = userId;
-            
+
             this.save();
             return true;
         }

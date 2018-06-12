@@ -53,11 +53,10 @@ export class HomePage {
     let isCompleted:boolean = (this.getProgression() >= this.max);
 
     if (isCompleted) {
-      this.dataProvider.createArchive(this.userId);
-      // @TODO: Move the user's sessions in a new archive (with its userId)
+      this.dataProvider.createArchive(this.userId);      
       
-      //const modal = this.modalCtrl.create(SessionCompletedPage);
-      //modal.present(); 
+      const modal = this.modalCtrl.create(SessionCompletedPage);
+      modal.present(); 
     }
   }
 
@@ -81,6 +80,10 @@ export class HomePage {
 
   getSessions():Array<Object> {
     return this.dataProvider.getSessions(this.userId);
+  }
+
+  getArchives():Array<Object> {
+    return this.dataProvider.getArchives(this.userId);
   }
 
   getOverlayStyle() {
