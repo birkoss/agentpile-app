@@ -23,12 +23,18 @@ export class HomePage {
   listMode:string = "normal";
 
   constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams) {
+
+    /* Remove the userId since it's accessible in the User Object */
     this.userId = this.navParams.get("userId");
     this.dataProvider.setActiveUser(this.userId);
 
     this.user = this.dataProvider.getUsers().find(single_user => single_user['id'] == this.userId);
 
     this.max = this.user['sessions'];
+
+    // @TODO: Add a reminder after X days without interaction (only one if the app is not ran again)
+    // @TODO: Add the timer feature, Add a notification at the end
+    // @TODO: Allow synching
   }
 
   ionViewDidEnter() {
@@ -45,8 +51,13 @@ export class HomePage {
 
   refresh() {
     console.log("CHeck if its completed...");
-    const modal = this.modalCtrl.create(SessionCompletedPage);
-    modal.present();
+    let isCompleted:boolean = false;
+
+    if (isCompleted) {
+      // @TODO: Move the user's sessions in a new archive (with its userId)
+      const modal = this.modalCtrl.create(SessionCompletedPage);
+      modal.present(); 
+    }
   }
 
   setMode(newMode) {

@@ -15,7 +15,8 @@ export class DataProvider {
                 isDirty: true
 			},
 			'users': [],
-            'sessions': {},
+            'sessions': [],
+            'archives': [],
             'settings': {
                 'active_user': ''
             }
@@ -53,8 +54,6 @@ export class DataProvider {
             isDirty:true
     	});
 
-        this.data['sessions'][newId] = [[]];
-
     	this.save();
 
     	return newId;
@@ -67,7 +66,6 @@ export class DataProvider {
                 single_user['minutes'] = minutes;
                 single_user['sessions'] = sessions;
                 single_user['isDirty'] = true;
-
             }
         });
 
@@ -84,6 +82,7 @@ export class DataProvider {
         this.data['users'].forEach(single_user => {
             if (single_user['id'] == userId) {
                 single_user['status'] = 'deleted';
+                single_user['isDirty'] = true;
             }
         });
     	
@@ -96,12 +95,14 @@ export class DataProvider {
         let day = dateObj.getUTCDate();
         let year = dateObj.getUTCFullYear();
 
-        this.getAllSessions(userId).push({
+        this.data['sessions'].push({
             id:'tmp_' + this.generateId(),
+            timestamp:Date.now(),
             bookName:bookName,
             authorName:authorName,
             isCompleted:isCompleted,
             pageBookmark:pageBookmark,
+            userId:userId,
             minutes:minutes,
             when:year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day,
             isDirty:true,
@@ -139,33 +140,24 @@ export class DataProvider {
        this.getSessions(userId).forEach(single_session => {
            if (single_session['id'] == sessionId) {
                single_session['status'] = 'deleted';
+               single_session['isDirty'] = true;
+
            }
        });
 
        this.save();
     }
 
-	login(id:string, token:string, platform:string) {
-		this.data['account'] = {
-            id: id,
-			token: token,
-			platform: platform,
-            isDirty: true
-		};
-
-		this.save();
-	}
-
     getAllSessions(userId):Array<Object> {
         return this.data['sessions'][userId].slice(-1)[0];
     }
 
     getSessions(userId):Array<Object> {
-        return this.getAllSessions(userId).filter(single_session => single_session['status'] == 'active').sort((a, b) => {
-            if (a['id'] < b['id']) {
-                return -1
-            } else if (a['id'] > b['id']) {
-                return 1;
+        return this.data['sessions'].filter(single_session => single_session['userId'] == userId && single_session['status'] == 'active').sort((a, b) => {
+            if (a['timestamp'] < b['timestamp']) {
+                return 1
+            } else if (a['timestamp'] > b['timestamp']) {
+                return -1;
             }
             return 0;
         });
@@ -178,6 +170,17 @@ export class DataProvider {
 	getUsers():Array<Object> {
 		return this.getAllUsers().filter(single_user => single_user['status'] == 'active');
 	}
+
+    login(id:string, token:string, platform:string) {
+        this.data['account'] = {
+            id: id,
+            token: token,
+            platform: platform,
+            isDirty: true
+        };
+
+        this.save();
+    }
 
 	isLoggedIn():boolean {
         let loggedIn = this.data['account']['id'] !== '';
