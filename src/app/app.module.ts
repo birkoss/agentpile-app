@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
+import { HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoadingPage } from '../pages/loading/loading';
@@ -34,6 +37,8 @@ import { ApiProvider } from '../providers/api/api';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    HttpClientModule,
     RoundProgressModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
@@ -54,7 +59,7 @@ import { ApiProvider } from '../providers/api/api';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
-    ApiProvider
+    ApiProvider,
   ]
 })
 export class AppModule {}

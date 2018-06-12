@@ -64,6 +64,10 @@ export class HomePage {
     this.listMode = newMode;
   }
 
+  sync() {
+    this.dataProvider.sync();
+  }
+
   addSession() {
     const modal = this.modalCtrl.create(EditSessionPage, {userId:this.userId, minutes:this.user['minutes'], callback:this.refresh.bind(this)});
     modal.present();
