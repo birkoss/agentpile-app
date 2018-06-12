@@ -31,10 +31,10 @@
     <ion-list>
       <ion-item>
         <div>List</div>
-        <button *ngIf="listMode == 'normal'" item-end clear ion-button (tap)="setMode('edit')">
+        <button *ngIf="listMode == 'normal'" color="secondary" item-end clear ion-button (tap)="setMode('edit')">
           Modifier
         </button>
-        <button *ngIf="listMode == 'edit'" item-end clear ion-button (tap)="setMode('normal')">
+        <button *ngIf="listMode == 'edit'" color="secondary" item-end clear ion-button (tap)="setMode('normal')">
           Fermer
         </button>
       </ion-item>

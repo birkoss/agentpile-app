@@ -1,37 +1,15 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Session Completed</ion-title>
-    <ion-buttons end>
-      <button ion-end ion-button (tap)="close()">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
+<ion-content class="fullscreen" padding>
  
-    <p *ngIf="submitAttempt" class="error">Please fill out all details accurately.</p>
+    <div class="circle">
+      <ion-icon name="checkmark"></ion-icon>
+    </div>
 
- 	<form [formGroup]="myForm">
-		<div class="fieldset">
-            <ion-label stacked>Book Name</ion-label>
-            <ion-row>
-				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
-			</ion-row>
-        </div>
+    <h1>Objectif terminé!</h1>
 
-		<div class="fieldset">
-            <ion-label stacked>Time</ion-label>
-			<ion-row>
-				<ion-col><ion-input type="number" formControlName="hours" placeholder="0" [class.invalid]="isFieldInvalid('hours')"></ion-input><span class="label">hour(s)</span></ion-col>
-				<ion-col><ion-input type="number" formControlName="minutes" placeholder="0" [class.invalid]="isFieldInvalid('minutes')"></ion-input><span class="label">minute(s)</span></ion-col>
-			</ion-row>
-        </div>
+    <h2>Tu peux recevoir ta récomponse et recommencer un nouvel objectif!</h2>
 
-		<div style="text-align: center;">
-			<button ion-button (tap)="createSession()">Add</button>
+		<div style="text-align: center; width: 100%;">
+			<button ion-button full color="secondary" (tap)="close()">Ok</button>
 		</div>
-	</form>
 
 </ion-content>

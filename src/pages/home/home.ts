@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, MenuController, ModalController, NavController, NavParams } from 'ionic-angular';
 
 import { EditSessionPage } from '../../pages/edit-session/edit-session';
+import { SessionCompletedPage } from '../../pages/session-completed/session-completed';
 
 import { DataProvider } from '../../providers/data/data'
 
@@ -13,7 +14,7 @@ export class HomePage {
 
   max: number = 100;
   radius: number = 125;
-  color: string = '#45ccce';
+  color: string = '#7C4DFF';
 
   userId:string;
 
@@ -30,6 +31,10 @@ export class HomePage {
     this.max = this.user['sessions'];
   }
 
+  ionViewDidEnter() {
+    this.refresh();
+  }
+
   showMenu() {
     this.menuCtrl.open();
   }
@@ -40,6 +45,8 @@ export class HomePage {
 
   refresh() {
     console.log("CHeck if its completed...");
+    const modal = this.modalCtrl.create(SessionCompletedPage);
+    modal.present();
   }
 
   setMode(newMode) {
