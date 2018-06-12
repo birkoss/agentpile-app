@@ -24,8 +24,15 @@ export class LoadingPage {
           if (this.dataProvider.getUsers().length == 0) {
             this.navCtrl.setRoot(EditUserPage);
           } else {
-            // @TODO: Must remember the last user and load it
-            this.navCtrl.setRoot(HomePage, {userId: this.dataProvider.getUsers()[0]['id']});
+            let userId = this.dataProvider.getActiveUser();
+            
+            /* Verify that the Active User is still present */
+            if (this.dataProvider.getUsers().find(single_user => single_user['id'] == userId) == null) {
+              /* Pick the first user */
+              userId = this.dataProvider.getUsers()[0]['id'];
+            }
+
+            this.navCtrl.setRoot(HomePage, {userId:userId});
           }
         } else {
           this.navCtrl.setRoot(LoginPage);

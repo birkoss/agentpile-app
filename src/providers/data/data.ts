@@ -141,11 +141,15 @@ export class DataProvider {
     }
 
     getSession(userId:string, sessionId:string) {
-        return this.getSessions(userId).find(single_session => single_session['id'] == sessionId);
+        return this.getUserSessions(userId).find(single_session => single_session['id'] == sessionId);
+    }
+
+    getUserSessions(userId:string) {
+        return this.data['sessions'].filter(single_session => single_session['userId'] == userId);
     }
 
     getSessions(userId):Array<Object> {
-        return this.data['sessions'].filter(single_session => single_session['userId'] == userId && single_session['status'] == 'active').sort((a, b) => {
+        return this.getUserSessions(userId).filter(single_session => single_session['status'] == 'active').sort((a, b) => {
             if (a['timestamp'] < b['timestamp']) {
                 return 1
             } else if (a['timestamp'] > b['timestamp']) {
@@ -165,6 +169,23 @@ export class DataProvider {
        });
 
        this.save();
+    }
+
+    /* Archives */
+
+    createArchive(userId:string) {
+        let sessions = this.getUserSessions(userId);
+
+        this.data['archives'].push({
+            userId:userId,
+            sessions:sessions
+        });
+
+        this.data['sessions'] = this.data['sessions'].filter(single_session => single_session['userId'] != userId);
+
+        this.save();
+
+        return true;
     }
 
     /* Account */
