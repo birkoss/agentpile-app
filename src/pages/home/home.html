@@ -10,9 +10,6 @@
       <button ion-end ion-button (tap)="sync()">
         <ion-icon name="sync" [class.hasError]="syncProvider.hasError()" [class.synching]="syncProvider.isRunning"></ion-icon>
       </button>
-      <button ion-end ion-button (tap)="addSession()">
-        <ion-icon name="add-circle"></ion-icon>
-      </button>
       <button ion-end ion-button (tap)="timeSession()">
         <ion-icon name="alarm"></ion-icon>
       </button>
@@ -82,5 +79,9 @@
       </ion-item>
     </ion-list>
   </div>
+
+  <ion-fab bottom right>
+    <button ion-fab mini color="secondary" (tap)="addSession()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 
 </ion-content>

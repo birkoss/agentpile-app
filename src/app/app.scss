@@ -12,13 +12,11 @@ ion-menu {
 	    justify-content: center;
 	    align-items: center;
 
+	   	background-color: map-get($colors, primary) !important;
+
 	    h1 {
 	    	color: #ffffff;
 	    }
-	}
-
-	ion-content {
-		background-color: map-get($colors, primary) !important;
 	}
 
 	ion-list {
@@ -32,6 +30,11 @@ ion-menu {
 				ion-label {
 					padding-left: 16px;
 				}
+			}
+
+			div.status {
+				color: map-get($colors, primary) !important;
+				font-weight: bold;
 			}
 		}
 
@@ -131,4 +134,8 @@ ion-content.fullscreen {
 
 ion-navbar button {
 	font-size: 1.8rem !important;
+}
+
+button[color="secondary"] ion-icon:before, button[color="secondary"] .button-inner {
+	color: #ffffff !important;
 }
