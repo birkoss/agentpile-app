@@ -136,6 +136,6 @@ ion-navbar button {
 	font-size: 1.8rem !important;
 }
 
-button[color="secondary"] ion-icon:before, button[color="secondary"] .button-inner {
+button[color="secondary"]:not(.button-clear) ion-icon:before, button[color="secondary"]:not(.button-clear) .button-inner {
 	color: #ffffff !important;
 }
