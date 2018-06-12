@@ -1,7 +1,7 @@
 /* @TODO: Fix the Ionic sidemenu gray pixell bug */
 .scroll-content{
     overflow-y:auto !important;
-} 
+}
 
 /* Side Menu */
 
@@ -11,6 +11,10 @@ ion-menu {
 	    display: flex;
 	    justify-content: center;
 	    align-items: center;
+
+	    h1 {
+	    	color: #ffffff;
+	    }
 	}
 
 	ion-content {

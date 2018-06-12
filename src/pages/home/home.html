@@ -60,8 +60,8 @@
   </div>
 
   <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
-    <p>Vous n'avez aucune scéance de lecture pour le moment.</p>
-    <button ion-button color="secondary" (tap)="addSession()">Inscrivez votre première scéance!</button>
+    <p>Vous n'avez aucune séance de lecture pour le moment.</p>
+    <button ion-button color="secondary" (tap)="addSession()">Inscrivez votre première séance!</button>
   </div>
 
   <div class="block_container" *ngIf="getArchives().length > 0">
@@ -76,7 +76,7 @@
         </ion-avatar>
         <h2><span class="bookName">{{ a.bookName }}</span><span *ngIf="a.authorName"> de {{ a.authorName }}</span></h2>
         <div class="meta">
-          <h3><ion-icon name="book"></ion-icon> {{ a.sessions.length }} scéances</h3>
+          <h3><ion-icon name="book"></ion-icon> {{ a.sessions.length }} séances</h3>
           <h3><ion-icon name="calendar"></ion-icon> {{ a.sessions[ a.sessions.length - 1 ]['when'] }}</h3>
         </div>
       </ion-item>

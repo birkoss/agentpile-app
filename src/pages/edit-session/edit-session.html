@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title *ngIf="isNew()">Nouvelle scéance</ion-title>
-    <ion-title *ngIf="!isNew()">Scéance existante</ion-title>
+    <ion-title *ngIf="isNew()">Nouvelle séance</ion-title>
+    <ion-title *ngIf="!isNew()">Séance existante</ion-title>
     <ion-buttons end>
       <button ion-end ion-button (tap)="close()">
         <ion-icon name="close"></ion-icon>
@@ -17,7 +17,7 @@
  	<form [formGroup]="myForm">
 
 		<div class="fieldset">
-      <ion-label stacked>Nom du livre</ion-label>
+      <ion-label stacked>Titre du livre</ion-label>
       <ion-row>
 				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
 			</ion-row>

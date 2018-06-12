@@ -20,26 +20,33 @@ export class SyncProvider {
 			return false;
 		}
 
-		this.isRunning = true;
+		let isDirty:boolean = false;
 
-        console.log("sync...");
+        /* Sync account */
         if (this.dataProvider.data['account']['isDirty']) {
+        	isDirty = true;
             this.apiProvider.getAccount(this.dataProvider.data['account']).subscribe(
-	            value => {
-	                if (value['status'] == 'error') {
-						this.addError(value['code'], value['message']);
+	            res => {
+	                if (res['status'] == 'error') {
+						this.addError(res['code'], res['message']);
 	                } else {
-	                    
+	                	this.dataProvider.data['account']['id'] = res['data']['id'];
+	                	this.dataProvider.data['account']['isDirty'] = false;
+	                	this.dataProvider.save();
+
+	                    this.isRunning = false;
 	                }
-	                console.log(value);
+	                console.log(res);
 	            },
 	            error => {
-	            	console.log(error);
 	            	this.addError("0", "Error while contacting the API");
 	            }
 	        );
+        }
 
-            console.log('must sync...');
+        if (isDirty) {
+        	this.isRunning = true;
+        	return true;
         }
         
         // Sync account
@@ -53,7 +60,7 @@ export class SyncProvider {
 
         // Sync archives
 
-		return true;
+		return false;
 	}
 
 	addError(code:string, message:string) {

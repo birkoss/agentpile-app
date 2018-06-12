@@ -15,7 +15,7 @@ export class HomePage {
 
   max: number = 100;
   radius: number = 125;
-  color: string = '#7C4DFF';
+  color: string = '#FAB73A';
 
   userId:string;
 
