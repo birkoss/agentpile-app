@@ -42,6 +42,8 @@ export class DataProvider {
 		this.storage.set('data', JSON.stringify(this.data));
     }
 
+    /* Users */
+
     addUser(name, minutes, sessions) {
     	let newId:string = "tmp_" + this.generateId();
 
@@ -75,7 +77,11 @@ export class DataProvider {
     }
 
     getUser(userId:string) {
-        return this.data['users'].find(single_user => single_user['id'] == userId);
+        return this.getUsers().find(single_user => single_user['id'] == userId);
+    }
+
+    getUsers():Array<Object> {
+        return this.data['users'].filter(single_user => single_user['status'] == 'active');
     }
 
     removeUser(userId:string) {
@@ -88,6 +94,8 @@ export class DataProvider {
     	
     	this.save();
     }
+
+    /* Sessions */
 
     addSession(userId:number, bookName:string, minutes:Number, authorName:string, isCompleted:boolean, pageBookmark:number) {
         let dateObj = new Date();
@@ -136,6 +144,17 @@ export class DataProvider {
         return this.getSessions(userId).find(single_session => single_session['id'] == sessionId);
     }
 
+    getSessions(userId):Array<Object> {
+        return this.data['sessions'].filter(single_session => single_session['userId'] == userId && single_session['status'] == 'active').sort((a, b) => {
+            if (a['timestamp'] < b['timestamp']) {
+                return 1
+            } else if (a['timestamp'] > b['timestamp']) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
     removeSession(userId:any, sessionId:string) {
        this.getSessions(userId).forEach(single_session => {
            if (single_session['id'] == sessionId) {
@@ -148,28 +167,7 @@ export class DataProvider {
        this.save();
     }
 
-    getAllSessions(userId):Array<Object> {
-        return this.data['sessions'][userId].slice(-1)[0];
-    }
-
-    getSessions(userId):Array<Object> {
-        return this.data['sessions'].filter(single_session => single_session['userId'] == userId && single_session['status'] == 'active').sort((a, b) => {
-            if (a['timestamp'] < b['timestamp']) {
-                return 1
-            } else if (a['timestamp'] > b['timestamp']) {
-                return -1;
-            }
-            return 0;
-        });
-    }
-
-    getAllUsers():Array<Object> {
-        return this.data['users'];
-    }
-
-	getUsers():Array<Object> {
-		return this.getAllUsers().filter(single_user => single_user['status'] == 'active');
-	}
+    /* Account */
 
     login(id:string, token:string, platform:string) {
         this.data['account'] = {
@@ -193,6 +191,8 @@ export class DataProvider {
         return loggedIn;
 	}
 
+    /* Settings */
+
     setActiveUser(userId:string):boolean {
         if (userId != this.getActiveUser()) {
             this.data['settings']['active_user'] = userId;
@@ -206,6 +206,8 @@ export class DataProvider {
     getActiveUser():string {
         return this.data['settings']['active_user'];
     }
+
+    /* Helpers */
 
 	isDebug():boolean {
 		return !((<any>window).cordova);
