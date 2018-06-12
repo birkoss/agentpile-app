@@ -238,31 +238,6 @@ export class DataProvider {
 
     /* Helpers */
 
-    sync():boolean {
-        if (this.isSynching) {
-            return false;
-        }
-        this.isSynching = true;
-        console.log("sync...");
-        if (this.data['account']['isDirty']) {
-            this.apiProvider.getAccount(this.data['account']);
-            console.log('must sync...');
-        }
-        
-        // Sync account
-
-        // Sync users
-        // - Update sessions userId
-        // - Update archive userId
-        // - Update archive sessions userId
-
-        // Sync sessions
-
-        // Sync archives
-
-        return true;
-    }
-
 	isDebug():boolean {
 		return !((<any>window).cordova);
 	}

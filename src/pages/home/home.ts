@@ -5,6 +5,7 @@ import { EditSessionPage } from '../../pages/edit-session/edit-session';
 import { SessionCompletedPage } from '../../pages/session-completed/session-completed';
 
 import { DataProvider } from '../../providers/data/data'
+import { SyncProvider } from '../../providers/sync/sync'
 
 @Component({
   selector: 'page-home',
@@ -22,7 +23,7 @@ export class HomePage {
 
   listMode:string = "normal";
 
-  constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams) {
+  constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams, private syncProvider:SyncProvider) {
     /* Remove the userId since it's accessible in the User Object */
     this.userId = this.navParams.get("userId");
 
@@ -65,7 +66,7 @@ export class HomePage {
   }
 
   sync() {
-    this.dataProvider.sync();
+    this.syncProvider.start();
   }
 
   addSession() {

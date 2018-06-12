@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http'
+
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
@@ -8,21 +10,19 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ApiProvider {
 
-  constructor(private http:Http) {
-    console.log('Hello ApiProvider Provider');
-  }
+	public static API_ENDPOINT='https://agentpile.com/api/';
 
-  getAccount(data) {
-  	console.log(data);
+	constructor(private httpClient:HttpClient, private http:Http) { }
 
-  	return this.http.get('https://agentpile.com/api/accounts/get.php').map(res => res.json())
-  		.subscribe(
-  			value => {
-  				console.log(value);
-  			},
-  			error => {
-  				console.log(error);
-  			}
-  		);
-  }
+	getAccount(data) {
+		console.log(data);
+		let params = {
+			params: {
+				token:data['token'],
+				platform:data['platform']
+			}
+		};
+
+		return this.httpClient.get(ApiProvider.API_ENDPOINT+'accounts/get.php', params);
+	}
 }

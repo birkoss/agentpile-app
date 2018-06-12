@@ -8,7 +8,7 @@
     <ion-title>Agent {{ user.name }}</ion-title>
     <ion-buttons end>
       <button ion-end ion-button (tap)="sync()">
-        <ion-icon name="sync" [class.synching]="dataProvider.isSynching"></ion-icon>
+        <ion-icon name="sync" [class.hasError]="syncProvider.hasError()" [class.synching]="syncProvider.isRunning"></ion-icon>
       </button>
       <button ion-end ion-button (tap)="addSession()">
         <ion-icon name="add-circle"></ion-icon>

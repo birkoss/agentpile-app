@@ -24,6 +24,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 import { DataProvider } from '../providers/data/data';
 import { ApiProvider } from '../providers/api/api';
+import { SyncProvider } from '../providers/sync/sync';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ApiProvider } from '../providers/api/api';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
     ApiProvider,
+    SyncProvider,
   ]
 })
 export class AppModule {}
