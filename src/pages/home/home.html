@@ -42,7 +42,7 @@
       <ion-item *ngFor="let s of getSessions()">
         <ion-avatar item-start>
           <ion-icon *ngIf="s.isCompleted" name="checkmark"></ion-icon>
-          <ion-icon *ngIf="!s.isCompleted" name="bookmarks"></ion-icon>
+          <ion-icon *ngIf="!s.isCompleted" name="bookmark"><span [class.txt10]="s.pageBookmark > 9" [class.txt100]="s.pageBookmark > 99">{{ s.pageBookmark }}</span></ion-icon>
         </ion-avatar>
         <h2><span class="bookName">{{ s.bookName }}</span><span *ngIf="s.authorName"> de {{ s.authorName }}</span></h2>
         <div class="meta">

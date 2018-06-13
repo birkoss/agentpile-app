@@ -36,8 +36,27 @@ page-home {
 			color: map-get($colors, secondary) !important;
 		}
 
-		ion-icon[name="bookmarks"]:before {
+		ion-icon[name="bookmark"]:before {
 			color: map-get($colors, secondary-light) !important;
+		}
+
+		ion-icon[name="bookmark"] {
+			position: relative;
+		}
+
+		ion-icon[name="bookmark"] span {
+			position: absolute;
+	 		top: calc(50% - 2px);
+    		left: 50%;
+
+    		transform: translate(-50%, -50%);
+
+    		&.txt10 {
+				font-size: 15px;
+    		}
+    		&.txt100 {
+				font-size: 12px;
+    		}
 		}
 
 		h2 {
@@ -75,7 +94,7 @@ page-home {
 
 		ion-avatar {
 			ion-icon {
-				font-size: 2.5em;
+				font-size: 3em;
 			}
 		}
 	}
