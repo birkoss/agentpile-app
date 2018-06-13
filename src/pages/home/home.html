@@ -19,15 +19,20 @@
 
 <ion-content padding>
   <div class="block_container">
-    <h1>Objectifs</h1>
+    <ion-card>
 
-    <div class="progress-wrapper">
-      <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }} / {{ max }}</div>
-      <round-progress [current]="getProgression()" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
-    </div>
+      <h1>Objectifs</h1>
+
+    
+      <div class="progress-wrapper">
+        <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }} / {{ max }}</div>
+        <round-progress [current]="getProgression()" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
+      </div>
+    </ion-card>
   </div>
 
   <div class="block_container" *ngIf="getProgression() > 0">
+    <ion-card>
     <ion-list>
       <ion-item>
         <div>Liste</div>
@@ -42,7 +47,7 @@
       <ion-item *ngFor="let s of getSessions()">
         <ion-avatar item-start>
           <ion-icon *ngIf="s.isCompleted" name="checkmark"></ion-icon>
-          <ion-icon *ngIf="!s.isCompleted" name="bookmark"><span [class.txt10]="s.pageBookmark > 9" [class.txt100]="s.pageBookmark > 99">{{ s.pageBookmark }}</span></ion-icon>
+          <ion-icon *ngIf="!s.isCompleted" name="bookmark"><span *ngIf="s.pageBookmark > 0" [class.txt10]="s.pageBookmark > 9" [class.txt100]="s.pageBookmark > 99">{{ s.pageBookmark }}</span></ion-icon>
         </ion-avatar>
         <h2><span class="bookName">{{ s.bookName }}</span><span *ngIf="s.authorName"> de {{ s.authorName }}</span></h2>
         <div class="meta">
@@ -54,6 +59,7 @@
         </button>
       </ion-item>
     </ion-list>
+  </ion-card>
   </div>
 
   <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
@@ -62,6 +68,7 @@
   </div>
 
   <div class="block_container" *ngIf="getArchives().length > 0">
+    <ion-card>
     <ion-list>
       <ion-item>
         <div>Archives</div>
@@ -78,6 +85,7 @@
         </div>
       </ion-item>
     </ion-list>
+  </ion-card>
   </div>
 
   <ion-fab bottom right>

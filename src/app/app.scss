@@ -1,3 +1,8 @@
+@font-face {
+    font-family: AgentPileFont;
+    src: url("../assets/fonts/EarwormDEMO.otf") format("opentype");
+}
+
 /* @TODO: Fix the Ionic sidemenu gray pixell bug */
 .scroll-content{
     overflow-y:auto !important;
@@ -7,15 +12,25 @@
 
 ion-menu {
 	ion-header {
+		padding-top: 24px;
 	    min-height: 150px;
 	    display: flex;
 	    justify-content: center;
 	    align-items: center;
+	    flex-direction: column;
 
 	   	background-color: map-get($colors, primary) !important;
 
 	    h1 {
 	    	color: #ffffff;
+	    	margin-bottom: 20px;
+	    	font-size: 48px;
+
+	    	font-family: AgentPileFont, sans-serif;
+	    }
+
+	    svg {
+	    	max-width: 50%;
 	    }
 	}
 
