@@ -29,7 +29,6 @@ export class HomePage {
 
     this.max = this.user['sessions'];
 
-    // @TODO: Add a reminder after X days without interaction (only one if the app is not ran again)
     // @TODO: Add the timer feature, Add a notification at the end
 
     this.dataProvider.setActiveUser(this.user['id']);
@@ -64,7 +63,7 @@ export class HomePage {
     this.localNotifications.clearAll();
     this.localNotifications.schedule({
       text: "Vous n'avez pas lu dans la dernière journée!",
-      trigger: {at:  new Date(new Date().getTime() + 86400)},
+      trigger: {at:  new Date(new Date().getTime() + 86400000)},
       led: '532981',
       smallIcon: 'res://notification.png'
     });
