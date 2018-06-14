@@ -46,10 +46,6 @@ export class HomePage {
     alert("TODO");
   }
 
-  pushNotification() {
- 
-  }
-
   refresh() {
     let isCompleted:boolean = (this.getProgression() >= this.max);
 

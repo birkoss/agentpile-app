@@ -41,6 +41,10 @@ page-home {
 			color: map-get($colors, secondary-light) !important;
 		}
 
+		ion-icon[name="cube"]:before {
+			color: map-get($colors, secondary-light) !important;
+		}
+
 		ion-icon[name="bookmark"] {
 			position: relative;
 		}

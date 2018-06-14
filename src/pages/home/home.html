@@ -7,9 +7,6 @@
     </ion-buttons>
     <ion-title>Agent {{ user.name }}</ion-title>
     <ion-buttons end>
-      <button ion-end ion-button (tap)="pushNotification()">
-        <ion-icon name="alert"></ion-icon>
-      </button>
       <button ion-end ion-button (tap)="sync()">
         <ion-icon name="sync" [class.hasError]="syncProvider.hasError()" [class.synching]="syncProvider.isRunning"></ion-icon>
       </button>
@@ -21,12 +18,20 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="block_container">
+
+  <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
     <ion-card>
+        <ion-card-header>Aucune séance en cours</ion-card-header>
+        <ion-card-content>
+          <p style="margin-bottom: 18px;">Vous n'avez aucune séance de lecture pour le moment.</p>
+          <button ion-button color="secondary" (tap)="addSession()">Inscrivez votre première séance!</button>
+        </ion-card-content>
+    </ion-card>
+  </div>
 
+  <div class="block_container" *ngIf="getProgression() > 0">
+    <ion-card>
       <h1>Objectifs</h1>
-
-    
       <div class="progress-wrapper">
         <div class="current" [ngStyle]="getOverlayStyle()">{{ getProgression() }} / {{ max }}</div>
         <round-progress [current]="getProgression()" [max]="max" stroke="25" [radius]="radius" [color]="color"></round-progress>
@@ -65,11 +70,6 @@
   </ion-card>
   </div>
 
-  <div class="block_container" *ngIf="getProgression() == 0" style="text-align: center;">
-    <p>Vous n'avez aucune séance de lecture pour le moment.</p>
-    <button ion-button color="secondary" (tap)="addSession()">Inscrivez votre première séance!</button>
-  </div>
-
   <div class="block_container" *ngIf="getArchives().length > 0">
     <ion-card>
     <ion-list>
@@ -81,10 +81,9 @@
         <ion-avatar item-start>
           <ion-icon  name="cube"></ion-icon>
         </ion-avatar>
-        <h2><span class="bookName">{{ a.bookName }}</span><span *ngIf="a.authorName"> de {{ a.authorName }}</span></h2>
         <div class="meta">
-          <h3><ion-icon name="book"></ion-icon> X séances</h3>
-          <h3><ion-icon name="calendar"></ion-icon> WHEN </h3>
+          <h3><ion-icon name="book"></ion-icon> {{ dataProvider.getUserSessions(user['id'], a['id']).length }} séances</h3>
+          <h3><ion-icon name="calendar"></ion-icon> {{ dataProvider.getUserSessions(user['id'], a['id']).reverse()[0]['when'] }} </h3>
         </div>
       </ion-item>
     </ion-list>
