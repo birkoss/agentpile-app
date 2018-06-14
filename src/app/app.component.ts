@@ -25,7 +25,7 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
 
       //this.statusBar.overlaysWebView(true);
       this.statusBar.backgroundColorByHexString('#371B53');

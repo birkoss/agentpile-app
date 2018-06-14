@@ -56,7 +56,7 @@ export class ApiProvider {
 				id:data['id'],
 				book_author:data['authorName'],
 				book_name:data['bookName'],
-				is_completed:(data['isCompleted'] ? 1 : 0),
+				is_completed:(data['isCompleted'] ? "1" : "0"),
 				minutes:data['minutes'],
 				page_bookmark:data['pageBookmark'],
 				status:data['status'],

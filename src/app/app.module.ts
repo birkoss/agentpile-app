@@ -17,6 +17,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { GooglePlus } from '@ionic-native/google-plus';
 
@@ -62,6 +63,7 @@ import { SyncProvider } from '../providers/sync/sync';
     DataProvider,
     ApiProvider,
     SyncProvider,
+    LocalNotifications
   ]
 })
 export class AppModule {}

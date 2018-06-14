@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AlertController, MenuController, ModalController, NavController, NavParams } from 'ionic-angular';
 
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 import { EditSessionPage } from '../../pages/edit-session/edit-session';
 import { SessionCompletedPage } from '../../pages/session-completed/session-completed';
 
@@ -21,7 +23,7 @@ export class HomePage {
 
   listMode:string = "normal";
 
-  constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams, private syncProvider:SyncProvider) {
+  constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private localNotifications:LocalNotifications, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams, private syncProvider:SyncProvider) {
     
     this.user = this.dataProvider.getUsers().find(single_user => single_user['id'] == this.navParams.get("userId"));
 
@@ -29,7 +31,6 @@ export class HomePage {
 
     // @TODO: Add a reminder after X days without interaction (only one if the app is not ran again)
     // @TODO: Add the timer feature, Add a notification at the end
-    // @TODO: Allow synching
 
     this.dataProvider.setActiveUser(this.user['id']);
   }
@@ -46,6 +47,10 @@ export class HomePage {
     alert("TODO");
   }
 
+  pushNotification() {
+ 
+  }
+
   refresh() {
     let isCompleted:boolean = (this.getProgression() >= this.max);
 
@@ -55,6 +60,14 @@ export class HomePage {
       const modal = this.modalCtrl.create(SessionCompletedPage);
       modal.present(); 
     }
+
+    this.localNotifications.clearAll();
+    this.localNotifications.schedule({
+      text: "Vous n'avez pas lu dans la dernière journée!",
+      trigger: {at:  new Date(new Date().getTime() + 86400)},
+      led: '532981',
+      smallIcon: 'res://notification.png'
+    });
   }
 
   setMode(newMode) {

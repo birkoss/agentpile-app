@@ -28,6 +28,7 @@ export class LoadingPage {
             
             /* Verify that the Active User is still present */
             if (this.dataProvider.getUsers().find(single_user => single_user['id'] == userId) == null) {
+
               /* Pick the first user */
               userId = this.dataProvider.getUsers()[0]['id'];
             }
