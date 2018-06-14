@@ -46,6 +46,10 @@ export class DataProvider {
 		this.storage.set('data', JSON.stringify(this.data));
     }
 
+    public getData(id:string):Array<Object> {
+        return this.data[id];
+    }
+
     /* Users */
 
     addUser(name, minutes, sessions) {

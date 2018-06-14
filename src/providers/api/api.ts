@@ -25,4 +25,16 @@ export class ApiProvider {
 
 		return this.httpClient.get(ApiProvider.API_ENDPOINT+'accounts/get.php', params);
 	}
+
+	getUser(data, account_id) {
+		let params = {
+			params: {
+				id:data['id'],
+				account_id:account_id,
+				status:data['status']
+			}
+		};
+
+		return this.httpClient.get(ApiProvider.API_ENDPOINT+'users/get.php', params);
+	}
 }

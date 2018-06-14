@@ -34,7 +34,7 @@ export class SyncProvider {
 	                	this.dataProvider.data['account']['isDirty'] = false;
 	                	this.dataProvider.save();
 
-	                    this.isRunning = false;
+	                    this.stop();
 	                }
 	                console.log(res);
 	            },
@@ -44,10 +44,68 @@ export class SyncProvider {
 	        );
         }
 
+        /* Sync users */
+        if (!isDirty) {
+        	let users = this.dataProvider.getData('users').filter(single_user => single_user['isDirty']);
+
+        	if (users.length > 0) {
+        		let single_user = users.shift();
+        		isDirty = true;
+
+        		console.log("Synching " + single_user['name']);
+        		this.apiProvider.getUser(single_user, this.dataProvider.data['account']['id']).subscribe(
+        			res => {
+		                if (res['status'] == 'error') {
+							this.addError(res['code'], res['message']);
+		                } else {
+		                	console.log(res);
+		                	let oldId:string = single_user['id'];
+
+		                	if (oldId != res['data']['id']) {
+		                		single_user['id'] = res['data']['id'];
+
+		                		// Update all sessions
+		                		this.dataProvider.getData('sessions').forEach(single_session => {
+		                			if (single_session['userId'] == oldId) {
+		                				single_session['userId'] = single_user['id'];
+		                			}
+		                		});
+
+		                		// Update all archives
+		                		this.dataProvider.getData('archives').forEach(single_archive => {
+		                			if (single_archive['userId'] == oldId) {
+		                				single_archive['userId'] = single_user['id'];
+		                				console.log(single_archive);
+
+		                				single_archive['sessions'].forEach(single_session => {
+				                			if (single_session['userId'] == oldId) {
+				                				single_session['userId'] = single_user['id'];
+				                			}
+		                				});
+		                			}
+		                		})
+		                	}
+		                	single_user['isDirty'] = false;
+
+		                	this.dataProvider.save();
+
+		                    this.stop();
+		                }
+        			},
+        			error => {
+        				console.log(error);
+        				this.addError("0", "Error while contacting the API");
+        			}
+        		);
+        	}
+        }
+
         if (isDirty) {
         	this.isRunning = true;
         	return true;
         }
+
+        console.log("Nothing to sync...");
         
         // Sync account
 
@@ -63,7 +121,13 @@ export class SyncProvider {
 		return false;
 	}
 
+	stop() {
+		this.isRunning = false;
+		this.start();
+	}
+
 	addError(code:string, message:string) {
+		console.log(code, message);
 		this.errors.push({
 			code:code,
 			message:message

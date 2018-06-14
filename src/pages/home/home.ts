@@ -17,17 +17,13 @@ export class HomePage {
   radius: number = 125;
   color: string = '#FAB73A';
 
-  userId:string;
-
   user:any;
 
   listMode:string = "normal";
 
   constructor(private alertCtrl:AlertController, private dataProvider:DataProvider, private menuCtrl:MenuController, private modalCtrl:ModalController, private navCtrl:NavController, private navParams:NavParams, private syncProvider:SyncProvider) {
-    /* Remove the userId since it's accessible in the User Object */
-    this.userId = this.navParams.get("userId");
-
-    this.user = this.dataProvider.getUsers().find(single_user => single_user['id'] == this.userId);
+    
+    this.user = this.dataProvider.getUsers().find(single_user => single_user['id'] == this.navParams.get("userId"));
 
     this.max = this.user['sessions'];
 
@@ -35,7 +31,7 @@ export class HomePage {
     // @TODO: Add the timer feature, Add a notification at the end
     // @TODO: Allow synching
 
-    this.dataProvider.setActiveUser(this.userId);
+    this.dataProvider.setActiveUser(this.user['id']);
   }
 
   ionViewDidEnter() {
@@ -54,7 +50,7 @@ export class HomePage {
     let isCompleted:boolean = (this.getProgression() >= this.max);
 
     if (isCompleted) {
-      this.dataProvider.createArchive(this.userId);      
+      this.dataProvider.createArchive(this.user['id']);      
       
       const modal = this.modalCtrl.create(SessionCompletedPage);
       modal.present(); 
@@ -70,12 +66,12 @@ export class HomePage {
   }
 
   addSession() {
-    const modal = this.modalCtrl.create(EditSessionPage, {userId:this.userId, minutes:this.user['minutes'], callback:this.refresh.bind(this)});
+    const modal = this.modalCtrl.create(EditSessionPage, {userId:this.user['id'], minutes:this.user['minutes'], callback:this.refresh.bind(this)});
     modal.present();
   }
 
   editSession(session:object) {
-    const modal = this.modalCtrl.create(EditSessionPage, {userId:this.userId, minutes:this.user['minutes'], session:session});
+    const modal = this.modalCtrl.create(EditSessionPage, {userId:this.user['id'], minutes:this.user['minutes'], session:session});
     modal.present();
   }
 
@@ -84,11 +80,11 @@ export class HomePage {
   }
 
   getSessions():Array<Object> {
-    return this.dataProvider.getSessions(this.userId);
+    return this.dataProvider.getSessions(this.user['id']);
   }
 
   getArchives():Array<Object> {
-    return this.dataProvider.getArchives(this.userId);
+    return this.dataProvider.getArchives(this.user['id']);
   }
 
   getOverlayStyle() {
