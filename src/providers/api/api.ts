@@ -14,7 +14,7 @@ export class ApiProvider {
 
 	constructor(private httpClient:HttpClient, private http:Http) { }
 
-	getAccount(data) {
+	account(data) {
 		console.log(data);
 		let params = {
 			params: {
@@ -26,7 +26,7 @@ export class ApiProvider {
 		return this.httpClient.get(ApiProvider.API_ENDPOINT+'accounts/get.php', params);
 	}
 
-	getUser(data, account_id) {
+	user(data, account_id) {
 		let params = {
 			params: {
 				id:data['id'],
@@ -36,5 +36,36 @@ export class ApiProvider {
 		};
 
 		return this.httpClient.get(ApiProvider.API_ENDPOINT+'users/get.php', params);
+	}
+
+	archive(data, account_id) {
+		let params = {
+			params: {
+				id:data['id'],
+				user_id:data['userId'],
+				account_id:account_id
+			}
+		};
+
+		return this.httpClient.get(ApiProvider.API_ENDPOINT+'archives/get.php', params);
+	}
+
+	session(data, account_id) {
+		let params = {
+			params: {
+				id:data['id'],
+				book_author:data['authorName'],
+				book_name:data['bookName'],
+				is_completed:(data['isCompleted'] ? 1 : 0),
+				minutes:data['minutes'],
+				page_bookmark:data['pageBookmark'],
+				status:data['status'],
+				date_read:data['when'],
+				user_id:data['userId'],
+				account_id:account_id
+			}
+		};
+
+		return this.httpClient.get(ApiProvider.API_ENDPOINT+'sessions/get.php', params);
 	}
 }

@@ -25,15 +25,15 @@ export class SyncProvider {
         /* Sync account */
         if (this.dataProvider.data['account']['isDirty']) {
         	isDirty = true;
-            this.apiProvider.getAccount(this.dataProvider.data['account']).subscribe(
+            this.apiProvider.account(this.dataProvider.data['account']).subscribe(
 	            res => {
 	                if (res['status'] == 'error') {
 						this.addError(res['code'], res['message']);
 	                } else {
 	                	this.dataProvider.data['account']['id'] = res['data']['id'];
 	                	this.dataProvider.data['account']['isDirty'] = false;
+	                	
 	                	this.dataProvider.save();
-
 	                    this.stop();
 	                }
 	                console.log(res);
@@ -53,7 +53,7 @@ export class SyncProvider {
         		isDirty = true;
 
         		console.log("Synching " + single_user['name']);
-        		this.apiProvider.getUser(single_user, this.dataProvider.data['account']['id']).subscribe(
+        		this.apiProvider.user(single_user, this.dataProvider.data['account']['id']).subscribe(
         			res => {
 		                if (res['status'] == 'error') {
 							this.addError(res['code'], res['message']);
@@ -83,12 +83,11 @@ export class SyncProvider {
 				                			}
 		                				});
 		                			}
-		                		})
+		                		});
 		                	}
 		                	single_user['isDirty'] = false;
 
 		                	this.dataProvider.save();
-
 		                    this.stop();
 		                }
         			},
@@ -100,23 +99,90 @@ export class SyncProvider {
         	}
         }
 
+        /* Sync archives */
+        if (!isDirty) {
+        	let archives = this.dataProvider.getData('archives').filter(single_archive => single_archive['isDirty']);
+
+        	if (archives.length > 0) {
+        		let single_archive = archives.shift();
+        		isDirty = true;
+
+        		console.log("Synching archive ID:" + single_archive['id']);
+        		this.apiProvider.archive(single_archive, this.dataProvider.data['account']['id']).subscribe(
+        			res => {
+		                if (res['status'] == 'error') {
+							this.addError(res['code'], res['message']);
+		                } else {
+		                	console.log(res);
+		                	
+		                	let oldId:string = single_archive['id'];
+
+		                	if (oldId != res['data']['id']) {
+		                		single_archive['id'] = res['data']['id'];
+
+		                		// Update all sessions
+		                		this.dataProvider.getData('sessions').forEach(single_session => {
+		                			if (single_session['userId'] == single_archive['userId'] && single_session['archiveId'] == oldId) {
+		                				single_session['archiveId'] = single_archive['id'];
+		                			}
+		                		});
+		                	}
+		                	single_archive['isDirty'] = false;
+
+		                	this.dataProvider.save();
+		                    this.stop();
+		                }
+        			},
+        			error => {
+        				console.log(error);
+        				this.addError("0", "Error while contacting the API");
+        			}
+        		);
+        	}
+        }
+
+        /* Sync sessions */
+        if (!isDirty) {
+        	let sessions = this.dataProvider.getData("sessions").filter(single_session => single_session['isDirty']);
+
+        	if (sessions.length > 0) {
+        		let single_session = sessions.shift();
+        		isDirty = true;
+
+        		console.log("Synching session ID:" + single_session['id']);
+        		this.apiProvider.session(single_session, this.dataProvider.data['account']['id']).subscribe(
+        			res => {
+		                if (res['status'] == 'error') {
+							this.addError(res['code'], res['message']);
+		                } else {
+		                	console.log(res);
+		                	
+		                	let oldId:string = single_session['id'];
+
+		                	if (oldId != res['data']['id']) {
+		                		single_session['id'] = res['data']['id'];
+		                	}
+		                	single_session['isDirty'] = false;
+
+		                	this.dataProvider.save();
+		                    this.stop();
+		                }
+        			},
+        			error => {
+        				console.log(error);
+        				this.addError("0", "Error while contacting the API");
+        			}
+        		);
+        	}
+        }
+
+        /* If something is dirty, start the synching */
         if (isDirty) {
         	this.isRunning = true;
         	return true;
         }
 
         console.log("Nothing to sync...");
-        
-        // Sync account
-
-        // Sync users
-        // - Update sessions userId
-        // - Update archive userId
-        // - Update archive sessions userId
-
-        // Sync sessions
-
-        // Sync archives
 
 		return false;
 	}

@@ -152,8 +152,8 @@ export class DataProvider {
         return this.getUserSessions(userId).find(single_session => single_session['id'] == sessionId);
     }
 
-    getUserSessions(userId:string) {
-        return this.data['sessions'].filter(single_session => single_session['userId'] == userId);
+    getUserSessions(userId:string, archiveId:string = null) {
+        return this.data['sessions'].filter(single_session => single_session['userId'] == userId && single_session['archiveId'] == archiveId);
     }
 
     getSessions(userId):Array<Object> {
@@ -182,14 +182,17 @@ export class DataProvider {
     /* Archives */
 
     createArchive(userId:string) {
-        let sessions = this.getUserSessions(userId);
-
-        this.data['archives'].push({
+        let archive:Object = {
+            id:"tmp_" + this.generateId(),
             userId:userId,
-            sessions:sessions
-        });
+            isDirty:true
+        }
 
-        this.data['sessions'] = this.data['sessions'].filter(single_session => single_session['userId'] != userId);
+        this.data['archives'].push(archive);
+
+        this.getUserSessions(userId).forEach(single_session => {
+            single_session['archiveId'] = archive['id'];
+        });
 
         this.save();
 
