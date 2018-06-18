@@ -12,6 +12,7 @@ import { LoginPage } from '../pages/login/login';
 import { EditSessionPage } from '../pages/edit-session/edit-session';
 import { EditUserPage } from '../pages/edit-user/edit-user';
 import { SessionCompletedPage } from '../pages/session-completed/session-completed';
+import { TimerPage } from '../pages/timer/timer';
 
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -35,7 +36,8 @@ import { SyncProvider } from '../providers/sync/sync';
     LoginPage,
     EditSessionPage,
     EditUserPage,
-    SessionCompletedPage
+    SessionCompletedPage,
+    TimerPage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { SyncProvider } from '../providers/sync/sync';
     LoginPage,
     EditSessionPage,
     EditUserPage,
-    SessionCompletedPage
+    SessionCompletedPage,
+    TimerPage
   ],
   providers: [
     GooglePlus,

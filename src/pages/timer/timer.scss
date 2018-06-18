@@ -1,0 +1,32 @@
+page-timer {
+	.circle {
+		border-radius: 50%;
+		width: 150px;
+		height: 150px; 
+		background-color: #FFFFFF;
+
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
+
+	ion-icon[name="checkmark"]:before {
+		font-size: 100px;
+		color: map-get($colors, secondary) !important;
+	}
+
+	h1, h2 {
+		color: #FFFFFF;
+	}
+
+	h1 {
+		margin: 40px 0;
+	}
+
+	h2 {
+		text-align: center;
+		font-size: 16px;
+
+		margin-bottom: 40px;
+	}
+}

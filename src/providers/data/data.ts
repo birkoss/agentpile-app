@@ -21,9 +21,12 @@ export class DataProvider {
 			'users': [],
             'sessions': [],
             'archives': [],
+            'books': [],
             'settings': {
                 'active_user': ''
-            }
+            },
+
+            'timers': []
 		};
 	}
 
@@ -241,6 +244,20 @@ export class DataProvider {
 
     getActiveUser():string {
         return this.data['settings']['active_user'];
+    }
+
+    startTimer(userId:string, minutes:number, end:number) {
+        this.data['timers'] = [{
+            userId:userId,
+            minutes:minutes,
+            end:end
+        }];
+
+        this.save();
+    }
+
+    hasTimer():Boolean {
+        return false;
     }
 
     /* Helpers */

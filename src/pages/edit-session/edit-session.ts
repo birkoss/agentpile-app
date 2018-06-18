@@ -20,6 +20,8 @@ export class EditSessionPage {
     isCompleted:false,
     pageBookmark:0
   };
+
+  book:string = "new";
   
   myForm:any;
 

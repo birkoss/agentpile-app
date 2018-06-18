@@ -5,6 +5,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { EditSessionPage } from '../../pages/edit-session/edit-session';
 import { SessionCompletedPage } from '../../pages/session-completed/session-completed';
+import { LoadingPage } from '../../pages/loading/loading';
 
 import { DataProvider } from '../../providers/data/data'
 import { SyncProvider } from '../../providers/sync/sync'
@@ -42,27 +43,77 @@ export class HomePage {
     this.menuCtrl.open();
   }
 
-  timeSession() {
-    alert("TODO");
+  startTimer() {
+    const prompt = this.alertCtrl.create({
+      title: 'Minuterie',
+      message: "Veuillez entrer le nombre de minutes pour commencer la minuterie",
+      inputs: [
+        {
+          name: 'minutes',
+          placeholder: this.user['minutes'],
+          value: this.user['minutes']
+        },
+      ],
+      buttons: [
+        {
+          text: 'Annuler',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Commencer',
+          handler: data => {
+            /* @TODO: Handling input */
+
+            let end = new Date(new Date().getTime() + (60000 * parseInt(data['minutes'])));
+
+            this.dataProvider.startTimer(this.user['id'], data['minutes'], end.getTime());
+
+            this.localNotifications.schedule({
+              text: "Votre minuterie de " + parseInt(data['minutes']) + " minutes est terminée!",
+              trigger: {at:  end},
+              led: '532981',
+              smallIcon: 'res://notification.png'
+            });
+
+            this.navCtrl.setRoot(LoadingPage);
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   refresh() {
-    let isCompleted:boolean = (this.getProgression() >= this.max);
+    /* Check the status of timers */
+    try {
+      this.localNotifications.getScheduledIds().then(res => {
+       // alert(JSON.stringify(res));
+      }).catch(err => { alert("Error:" + err); });
 
-    if (isCompleted) {
-      this.dataProvider.createArchive(this.user['id']);      
-      
-      const modal = this.modalCtrl.create(SessionCompletedPage);
-      modal.present(); 
+      /* Check completions */
+      let isCompleted:boolean = (this.getProgression() >= this.max);
+
+      if (isCompleted) {
+        this.dataProvider.createArchive(this.user['id']);      
+        
+        const modal = this.modalCtrl.create(SessionCompletedPage);
+        modal.present(); 
+      }
+
+      /* Create a X days notifications reminder */
+      this.localNotifications.clear(1);
+      this.localNotifications.schedule({
+        id: 1,
+        text: "Vous n'avez pas lu dans la dernière journée!",
+        trigger: {at:  new Date(new Date().getTime() + 86400000)},
+        led: '532981',
+        smallIcon: 'res://notification.png'
+      });
+    } catch(err) {
+
     }
-
-    this.localNotifications.clearAll();
-    this.localNotifications.schedule({
-      text: "Vous n'avez pas lu dans la dernière journée!",
-      trigger: {at:  new Date(new Date().getTime() + 86400000)},
-      led: '532981',
-      smallIcon: 'res://notification.png'
-    });
   }
 
   setMode(newMode) {

@@ -14,21 +14,39 @@
  
     <p *ngIf="submitAttempt" class="error">Please fill out all details accurately.</p>
 
+    <div padding>
+      <ion-segment [(ngModel)]="book">
+        <ion-segment-button value="new">
+          Nouveau livre
+        </ion-segment-button>
+        <ion-segment-button value="existing">
+          Livre existant
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
  	<form [formGroup]="myForm">
 
-		<div class="fieldset">
-      <ion-label stacked>Titre du livre</ion-label>
-      <ion-row>
-				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
-			</ion-row>
-    </div>
+    <ion-card [ngSwitch]="book">
+      <div *ngSwitchCase="'new'">
+    		<div class="fieldset">
+          <ion-label stacked>Titre du livre</ion-label>
+          <ion-row>
+    				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
+    			</ion-row>
+        </div>
 
-    <div class="fieldset">
-      <ion-label stacked>Nom de l'auteur</ion-label>
-      <ion-row>
-        <ion-col><ion-input formControlName="author" type="text" [class.invalid]="isFieldInvalid('author')"></ion-input></ion-col>
-      </ion-row>
-    </div>
+        <div class="fieldset">
+          <ion-label stacked>Nom de l'auteur</ion-label>
+          <ion-row>
+            <ion-col><ion-input formControlName="author" type="text" [class.invalid]="isFieldInvalid('author')"></ion-input></ion-col>
+          </ion-row>
+        </div>
+      </div>
+       <div *ngSwitchCase="'existing'">
+        [ Books List ]
+       </div>
+    </ion-card>
 
     <div class="fieldset">
       <ion-label stacked>Avancement</ion-label>

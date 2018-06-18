@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { LoginPage } from '../../pages/login/login';
+import { TimerPage } from '../../pages/timer/timer';
 import { EditUserPage } from '../../pages/edit-user/edit-user';
 
 import { DataProvider } from '../../providers/data/data'
@@ -24,16 +25,20 @@ export class LoadingPage {
           if (this.dataProvider.getUsers().length == 0) {
             this.navCtrl.setRoot(EditUserPage);
           } else {
-            let userId = this.dataProvider.getActiveUser();
-            
-            /* Verify that the Active User is still present */
-            if (this.dataProvider.getUsers().find(single_user => single_user['id'] == userId) == null) {
+            if (this.dataProvider.hasTimer()) {
+              this.navCtrl.setRoot(TimerPage);
+            } else {
+              let userId = this.dataProvider.getActiveUser();
+              
+              /* Verify that the Active User is still present */
+              if (this.dataProvider.getUsers().find(single_user => single_user['id'] == userId) == null) {
 
-              /* Pick the first user */
-              userId = this.dataProvider.getUsers()[0]['id'];
+                /* Pick the first user */
+                userId = this.dataProvider.getUsers()[0]['id'];
+              }
+
+              this.navCtrl.setRoot(HomePage, {userId:userId});
             }
-
-            this.navCtrl.setRoot(HomePage, {userId:userId});
           }
         } else {
           this.navCtrl.setRoot(LoginPage);

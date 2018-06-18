@@ -10,7 +10,7 @@
       <button ion-end ion-button (tap)="sync()">
         <ion-icon name="sync" [class.hasError]="syncProvider.hasError()" [class.synching]="syncProvider.isRunning"></ion-icon>
       </button>
-      <button ion-end ion-button (tap)="timeSession()">
+      <button ion-end ion-button (tap)="startTimer()">
         <ion-icon name="alarm"></ion-icon>
       </button>
     </ion-buttons>
