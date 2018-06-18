@@ -50,18 +50,31 @@ export class ApiProvider {
 		return this.httpClient.get(ApiProvider.API_ENDPOINT+'archives/get.php', params);
 	}
 
+	book(data, account_id) {
+		let params = {
+			params: {
+				id:data['id'],
+				name:data['name'],
+				author:data['author'],
+				account_id:account_id
+			}
+		};
+
+		return this.httpClient.get(ApiProvider.API_ENDPOINT+'books/get.php', params);
+	}
+
 	session(data, account_id) {
 		let params = {
 			params: {
 				id:data['id'],
-				book_author:data['authorName'],
-				book_name:data['bookName'],
+				book_id:data['bookId'],
 				is_completed:(data['isCompleted'] ? "1" : "0"),
 				minutes:data['minutes'],
 				page_bookmark:data['pageBookmark'],
 				status:data['status'],
 				date_read:data['when'],
 				user_id:data['userId'],
+				archive_id:data['archiveId'],
 				account_id:account_id
 			}
 		};

@@ -108,7 +108,7 @@ export class DataProvider {
 
     /* Sessions */
 
-    addSession(userId:number, bookName:string, minutes:Number, authorName:string, isCompleted:boolean, pageBookmark:number) {
+    addSession(userId:number, bookId:string, minutes:Number, isCompleted:boolean, pageBookmark:number) {
         let dateObj = new Date();
         let month = dateObj.getUTCMonth() + 1; //months from 1-12
         let day = dateObj.getUTCDate();
@@ -117,8 +117,7 @@ export class DataProvider {
         this.data['sessions'].push({
             id:'tmp_' + this.generateId(),
             timestamp:Date.now(),
-            bookName:bookName,
-            authorName:authorName,
+            bookId:bookId,
             isCompleted:isCompleted,
             pageBookmark:pageBookmark,
             userId:userId,
@@ -131,7 +130,7 @@ export class DataProvider {
         this.save();
     }
 
-    editSession(userId:number, bookName:string, minutes:Number, authorName:string, isCompleted:boolean, pageBookmark:number, sessionId:string) {
+    editSession(userId:number, bookId:string, minutes:Number, isCompleted:boolean, pageBookmark:number, sessionId:string) {
         let dateObj = new Date();
         let month = dateObj.getUTCMonth() + 1; //months from 1-12
         let day = dateObj.getUTCDate();
@@ -139,9 +138,8 @@ export class DataProvider {
 
         this.getSessions(userId).forEach(single_session => {
             if (single_session['id'] == sessionId) {
-                single_session['bookName'] = bookName;
+                single_session['bookId'] = bookId;
                 single_session['minutes'] = minutes;
-                single_session['authorName'] = authorName;
                 single_session['isCompleted'] = isCompleted;
                 single_session['pageBookmark'] = pageBookmark;
                 single_session['isDirty'] = true;
@@ -204,6 +202,26 @@ export class DataProvider {
 
     getArchives(userId:string) {
         return this.data['archives'].filter(single_archive => single_archive['userId'] == userId);
+    }
+
+    /* Books */
+
+    addBook(name:string, author:string):string {
+        let book = {
+            id:'tmp_' + this.generateId(),
+            name:name,
+            author:author,
+            isDirty:true
+        };
+
+        this.data['books'].push(book);
+        this.save();
+
+        return book['id'];
+    }
+
+    getBooks():Array<Object> {
+        return this.data['books'];
     }
 
     /* Account */

@@ -12,58 +12,68 @@
 
 <ion-content padding>
  
-    <p *ngIf="submitAttempt" class="error">Please fill out all details accurately.</p>
-
-    <div padding>
-      <ion-segment [(ngModel)]="book">
-        <ion-segment-button value="new">
-          Nouveau livre
-        </ion-segment-button>
-        <ion-segment-button value="existing">
-          Livre existant
-        </ion-segment-button>
-      </ion-segment>
-    </div>
+  <p *ngIf="submitAttempt" class="error">Please fill out all details accurately.</p>
 
  	<form [formGroup]="myForm">
 
-    <ion-card [ngSwitch]="book">
-      <div *ngSwitchCase="'new'">
-    		<div class="fieldset">
-          <ion-label stacked>Titre du livre</ion-label>
-          <ion-row>
-    				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
-    			</ion-row>
-        </div>
-
-        <div class="fieldset">
-          <ion-label stacked>Nom de l'auteur</ion-label>
-          <ion-row>
-            <ion-col><ion-input formControlName="author" type="text" [class.invalid]="isFieldInvalid('author')"></ion-input></ion-col>
-          </ion-row>
-        </div>
+    <ion-card>
+      <div>
+        <ion-segment [(ngModel)]="book" [ngModelOptions]="{standalone: true}" (ionChange)="onBookChanged()">
+          <ion-segment-button value="new">
+            Nouveau livre
+          </ion-segment-button>
+          <ion-segment-button value="existing">
+            Livre existant
+          </ion-segment-button>
+        </ion-segment>
       </div>
-       <div *ngSwitchCase="'existing'">
-        [ Books List ]
-       </div>
+
+      <div [ngSwitch]="book">
+        <div *ngSwitchCase="'new'">
+      		<div class="fieldset">
+            <ion-label stacked>Titre</ion-label>
+            <ion-row>
+      				<ion-col><ion-input formControlName="name" type="text" [class.invalid]="isFieldInvalid('name')"></ion-input></ion-col>
+      			</ion-row>
+          </div>
+
+          <div class="fieldset">
+            <ion-label stacked>Auteur</ion-label>
+            <ion-row>
+              <ion-col><ion-input formControlName="author" type="text" [class.invalid]="isFieldInvalid('author')"></ion-input></ion-col>
+            </ion-row>
+          </div>
+        </div>
+         <div *ngSwitchCase="'existing'">
+          <ion-list radio-group formControlName="bookId">
+            <ion-item *ngFor="let book of dataProvider.getBooks()">
+              <ion-label><em>{{ book.name }}</em><br /> par {{ book.author }}</ion-label>
+              <ion-radio [value]="book.id"></ion-radio>
+            </ion-item>
+          </ion-list>
+         </div>
+      </div>
     </ion-card>
 
-    <div class="fieldset">
-      <ion-label stacked>Avancement</ion-label>
-      <ion-row style="min-height: 48px">
-        <ion-col>Ce livre est terminé ?<ion-toggle formControlName="isCompleted"></ion-toggle></ion-col>
-        <ion-col *ngIf="!myForm.controls.isCompleted.value"><span class="label">Page: </span><ion-input type="number" formControlName="page" placeholder="0" [class.invalid]="isFieldInvalid('page')"></ion-input></ion-col>
-      </ion-row>
-    </div>
+    <ion-card>
+      <div class="fieldset">
+          <ion-label stacked>Avancement</ion-label>
+          <ion-row style="min-height: 48px">
+            <ion-col>Ce livre est terminé ?<ion-toggle formControlName="isCompleted"></ion-toggle></ion-col>
+            <ion-col *ngIf="!myForm.controls.isCompleted.value"><span class="label">Page: </span><ion-input type="number" formControlName="page" placeholder="0" [class.invalid]="isFieldInvalid('page')"></ion-input></ion-col>
+          </ion-row>
+        </div>
 
 
-		<div class="fieldset">
-      <ion-label stacked>Temps</ion-label>
-			<ion-row>
-				<ion-col><ion-input type="number" formControlName="hours" placeholder="0" [class.invalid]="isFieldInvalid('hours')"></ion-input><span class="label">heure(s)</span></ion-col>
-				<ion-col><ion-input type="number" formControlName="minutes" placeholder="0" [class.invalid]="isFieldInvalid('minutes')"></ion-input><span class="label">minute(s)</span></ion-col>
-			</ion-row>
-    </div>
+        <div class="fieldset">
+          <ion-label stacked>Temps</ion-label>
+          <ion-row>
+            <ion-col><ion-input type="number" formControlName="hours" placeholder="0" [class.invalid]="isFieldInvalid('hours')"></ion-input><span class="label">heure(s)</span></ion-col>
+            <ion-col><ion-input type="number" formControlName="minutes" placeholder="0" [class.invalid]="isFieldInvalid('minutes')"></ion-input><span class="label">minute(s)</span></ion-col>
+          </ion-row>
+        </div>
+      </ion-card>
+  
 
     <div style="text-align: center;">
       <button *ngIf="isNew()" color="secondary" ion-button (tap)="createSession()">Créer</button>

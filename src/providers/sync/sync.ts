@@ -141,6 +141,49 @@ export class SyncProvider {
         	}
         }
 
+        /* Sync books */
+        if (!isDirty) {
+        	let books = this.dataProvider.getData('books').filter(single_archive => single_archive['isDirty']);
+
+        	if (books.length > 0) {
+        		let single_book = books.shift();
+        		isDirty = true;
+
+        		console.log("Synching book ID:" + single_book['id']);
+        		this.apiProvider.book(single_book, this.dataProvider.data['account']['id']).subscribe(
+        			res => {
+		                if (res['status'] == 'error') {
+							this.addError(res['code'], res['message']);
+		                } else {
+		                	console.log(res);
+		                	
+		                	let oldId:string = single_book['id'];
+
+		                	if (oldId != res['data']['id']) {
+		                		single_book['id'] = res['data']['id'];
+
+		                		// Update all sessions
+		                		this.dataProvider.getData('sessions').forEach(single_session => {
+		                			if (single_session['bookId'] == oldId) {
+		                				single_session['bookId'] = single_book['id'];
+		                			}
+		                		});
+		                	}
+		                	single_book['isDirty'] = false;
+
+		                	this.dataProvider.save();
+		                    this.stop();
+
+		                }
+        			},
+        			error => {
+        				console.log(error);
+        				this.addError("0", "Error while contacting the API");
+        			}
+        		);
+        	}
+        }
+
         /* Sync sessions */
         if (!isDirty) {
         	let sessions = this.dataProvider.getData("sessions").filter(single_session => single_session['isDirty']);
